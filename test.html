@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .stats {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+            justify-content: center;
+        }
+        .stat {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 150px;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .feature {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .feature h3 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>景辰云贸 - 水杯跨境电商</h1>
+        <p>专注于将中国优质水杯销往全球市场，提供专业的跨境电商解决方案</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">500+</div>
+                <div class="stat-label">合作企业</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">50+</div>
+                <div class="stat-label">覆盖国家</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">98%</div>
+                <div class="stat-label">客户满意度</div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>水杯全球分销</h3>
+                <p>将中国优质水杯销往欧美、日韩、东南亚等全球主要市场</p>
+            </div>
+            <div class="feature">
+                <h3>水杯质量认证</h3>
+                <p>FDA、LFGB、BPA-Free等国际水杯安全认证服务</p>
+            </div>
+            <div class="feature">
+                <h3>专业水杯物流</h3>
+                <p>针对水杯产品的特殊包装和全球物流解决方案</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <p>网站正在建设中，React应用即将上线...</p>
+            <p>当前地址：http://localhost:3007</p>
+        </div>
+    </div>
+</body>
+</html>

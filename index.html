@@ -10,16 +10,25 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #333;
             line-height: 1.6;
+            scroll-behavior: smooth;
         }
         
-        /* 导航栏 */
+        /* 导航栏增强 */
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 1rem 2rem;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled {
+            padding: 0.5rem 2rem;
+            background: rgba(102, 126, 234, 0.95);
+            backdrop-filter: blur(10px);
         }
         .nav-container {
             max-width: 1200px;
@@ -33,10 +42,16 @@
             font-weight: bold;
             color: white;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .logo-icon {
+            font-size: 2rem;
         }
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             list-style: none;
         }
         .nav-links a {
@@ -45,31 +60,92 @@
             font-weight: 500;
             padding: 0.5rem 1rem;
             border-radius: 5px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            position: relative;
         }
         .nav-links a:hover {
             background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        .nav-links a.active {
+            background: rgba(255,255,255,0.3);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        .nav-links a:hover::after {
+            width: 80%;
         }
         
-        /* Hero区域 */
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            background: #764ba2;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Hero区域增强 */
         .hero {
             background: linear-gradient(rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)), url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
             color: white;
-            padding: 6rem 2rem;
+            padding: 8rem 2rem 6rem;
             text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .hero h1 {
             font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease;
         }
         .hero p {
             font-size: 1.3rem;
             max-width: 800px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 3rem;
             opacity: 0.95;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: fadeInUp 1s ease 0.4s both;
         }
         .cta-button {
             display: inline-block;
@@ -80,11 +156,29 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 1.1rem;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .cta-button.primary {
+            background: #667eea;
+            color: white;
+        }
+        .cta-button.secondary {
+            background: transparent;
+            border-color: white;
+            color: white;
         }
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .cta-button.primary:hover {
+            background: #764ba2;
+        }
+        .cta-button.secondary:hover {
+            background: white;
+            color: #667eea;
         }
         
         /* 主要内容区域 */
@@ -110,7 +204,7 @@
             border-radius: 2px;
         }
         
-        /* 数据统计 */
+        /* 数据统计增强 */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -122,24 +216,43 @@
             padding: 2rem;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
             transition: transform 0.3s;
         }
         .stat-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .stat-card:hover::before {
+            transform: scaleX(1);
         }
         .stat-number {
             font-size: 3rem;
             font-weight: bold;
             color: #667eea;
             margin-bottom: 0.5rem;
+            font-family: 'Arial Black', sans-serif;
         }
         .stat-label {
             font-size: 1.1rem;
             color: #666;
         }
         
-        /* 服务项目 */
+        /* 服务项目增强 */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -148,156 +261,227 @@
         }
         .service-card {
             background: white;
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: all 0.3s;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s;
         }
         .service-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .service-card:hover::after {
+            transform: scaleX(1);
         }
         .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+        .service-card:hover .service-icon {
+            transform: scale(1.2) rotate(5deg);
         }
         .service-card h3 {
             color: #333;
             margin-bottom: 1rem;
             font-size: 1.5rem;
         }
-        
-        /* 全球认证 */
-        .certifications {
-            background: #f8f9fa;
-            padding: 4rem 2rem;
-            margin: 4rem 0;
+        .service-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
         }
-        .cert-grid {
+        .service-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            text-align: left;
+            margin-top: 1rem;
+            padding: 0 1rem;
+            border-left: 3px solid #667eea;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        .service-card.expanded .service-details {
+            max-height: 500px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+        .service-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+        .service-toggle:hover {
+            background: #764ba2;
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.5s ease;
+        }
+        .modal-header {
+            padding: 2rem 2rem 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 {
+            color: #333;
+            font-size: 1.8rem;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+        .modal-close:hover {
+            color: #667eea;
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        
+        /* 产品展示 */
+        .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .cert-item {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        
-        /* 物流方案 */
-        .logistics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
             margin: 3rem 0;
         }
-        .logistics-step {
+        .product-card {
             background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        .step-number {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            border-radius: 50%;
-            text-align: center;
-            margin-bottom: 1rem;
-            font-weight: bold;
-        }
-        
-        /* 新闻资讯 */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        .news-card {
-            background: white;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
         }
-        .news-image {
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        .product-image {
             height: 200px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 2rem;
+            font-size: 3rem;
         }
-        .news-content {
+        .product-content {
             padding: 1.5rem;
         }
-        .news-date {
-            color: #667eea;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        /* 页脚 */
-        .footer {
-            background: #2d3748;
-            color: white;
-            padding: 4rem 2rem 2rem;
-            margin-top: 4rem;
-        }
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-        }
-        .footer-section h3 {
+        .product-title {
             font-size: 1.3rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        .product-price {
             color: #667eea;
-        }
-        .contact-info {
-            list-style: none;
-        }
-        .contact-info li {
+            font-weight: bold;
+            font-size: 1.2rem;
             margin-bottom: 1rem;
+        }
+        .product-actions {
             display: flex;
-            align-items: center;
             gap: 0.5rem;
         }
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+        .product-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
         }
-        .social-links a {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 40px;
-            color: white;
-            transition: background 0.3s;
-        }
-        .social-links a:hover {
+        .product-btn.primary {
             background: #667eea;
+            color: white;
         }
-        .copyright {
-            text-align: center;
-            padding-top: 2rem;
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #a0aec0;
+        .product-btn.secondary {
+            background: #f8f9fa;
+            color: #333;
+        }
+        .product-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         /* 响应式设计 */
@@ -316,18 +500,40 @@
             .hero p {
                 font-size: 1.1rem;
             }
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+            .cta-button {
+                width: 100%;
+                text-align: center;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <!-- 导航栏 -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">景辰云贸</a>
+            <a href="#home" class="logo">
+                <span class="logo-icon">🥤</span>
+                <span>景辰云贸</span>
+            </a>
             <ul class="nav-links">
-                <li><a href="#home">首页</a></li>
+                <li><a href="#home" class="active">首页</a></li>
                 <li><a href="#about">关于我们</a></li>
                 <li><a href="#services">服务项目</a></li>
+                <li><a href="#products">产品展示</a></li>
                 <li><a href="#certifications">全球认证</a></li>
                 <li><a href="#logistics">物流方案</a></li>
                 <li><a href="#news">新闻资讯</a></li>
@@ -340,26 +546,30 @@
     <section class="hero" id="home">
         <h1>连接中国水杯制造与世界市场</h1>
         <p>景辰云贸专注于水杯类产品的跨境电商，8年行业经验，帮助500+企业成功进入全球市场</p>
-        <a href="#contact" class="cta-button">立即咨询</a>
+        <div class="cta-buttons">
+            <a href="#contact" class="cta-button primary">立即咨询</a>
+            <a href="#products" class="cta-button secondary">查看产品</a>
+            <button class="cta-button secondary" onclick="openModal('videoModal')">观看介绍视频</button>
+        </div>
     </section>
 
     <!-- 数据统计 -->
     <div class="container">
         <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number">500+</div>
+            <div class="stat-card" onclick="showStatDetail('clients')">
+                <div class="stat-number" data-target="500">0</div>
                 <div class="stat-label">合作企业</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">50+</div>
+            <div class="stat-card" onclick="showStatDetail('countries')">
+                <div class="stat-number" data-target="50">0</div>
                 <div class="stat-label">覆盖国家</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">98%</div>
+            <div class="stat-card" onclick="showStatDetail('satisfaction')">
+                <div class="stat-number" data-target="98">0</div>
                 <div class="stat-label">客户满意度</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number">8年</div>
+            <div class="stat-card" onclick="showStatDetail('experience')">
+                <div class="stat-number" data-target="8">0</div>
                 <div class="stat-label">行业经验</div>
             </div>
         </div>
@@ -372,9 +582,10 @@
             <p style="font-size: 1.2rem; margin-bottom: 2rem;">
                 景辰云贸成立于2018年，是一家专注于水杯类产品的专业跨境电商公司。我们致力于将中国优质的水杯产品推向全球市场，为客户提供从产品选型、质量认证到国际物流的一站式解决方案。
             </p>
-            <p style="font-size: 1.1rem; color: #666;">
-                我们的团队由跨境电商专家、国际认证工程师和物流专家组成，拥有丰富的行业经验和成功案例。我们理解不同市场的需求差异，能够为客户量身定制最适合的出海策略。
-            </p>
+            <div class="cta-buttons" style="justify-content: center;">
+                <button class="cta-button primary" onclick="openModal('teamModal')">了解我们的团队</button>
+                <button class="cta-button secondary" onclick="openModal('historyModal')">查看发展历程</button>
+            </div>
         </div>
     </div>
 
@@ -382,47 +593,130 @@
     <div class="container" id="services">
         <h2 class="section-title">服务项目</h2>
         <div class="services-grid">
-            <div class="service-card">
+            <div class="service-card" onclick="toggleServiceDetails(this)">
                 <div class="service-icon">🌍</div>
                 <h3>全球市场拓展</h3>
-                <p>专业市场调研、渠道建设、品牌推广，帮助水杯产品进入欧美、日韩、东南亚等全球主要市场。</p>
+                <p>专业市场调研、渠道建设、品牌推广，帮助水杯产品进入全球主要市场。</p>
+                <button class="service-toggle">查看详情</button>
+                <div class="service-details">
+                    <p><strong>服务内容：</strong></p>
+                    <ul>
+                        <li>目标市场调研与分析</li>
+                        <li>竞争对手研究</li>
+                        <li>渠道合作伙伴对接</li>
+                        <li>品牌定位与推广策略</li>
+                        <li>销售网络建设</li>
+                    </ul>
+                </div>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="toggleServiceDetails(this)">
                 <div class="service-icon">✅</div>
                 <h3>产品认证服务</h3>
-                <p>FDA、LFGB、BPA-Free、TELEC等国际认证，确保产品符合目标市场法规要求，顺利通关。</p>
+                <p>FDA、LFGB、BPA-Free等国际认证，确保产品符合目标市场法规要求。</p>
+                <button class="service-toggle">查看详情</button>
+                <div class="service-details">
+                    <p><strong>认证类型：</strong></p>
+                    <ul>
+                        <li>FDA（美国食品药品监督管理局）</li>
+                        <li>LFGB（德国食品接触材料）</li>
+                        <li>BPA-Free（不含双酚A）</li>
+                        <li>TELEC（日本无线电设备）</li>
+                        <li>CE（欧洲市场准入）</li>
+                    </ul>
+                </div>
             </div>
-            <div class="service-card">
+            <div class="service-card" onclick="toggleServiceDetails(this)">
                 <div class="service-icon">🚚</div>
                 <h3>专业物流方案</h3>
-                <p>针对水杯产品的特殊包装、温控运输、快速清关，确保产品安全准时到达目的地。</p>
+                <p>针对水杯产品的特殊包装、温控运输、快速清关，确保产品安全准时到达。</p>
+                <button class="service-toggle">查看详情</button>
+                <div class="service-details">
+                    <p><strong>物流优势：</strong></p>
+                    <ul>
+                        <li>防碎材料定制包装</li>
+                        <li>恒温运输服务</li>
+                        <li>快速通关通道</li>
+                        <li>实时物流追踪</li>
+                        <li>全球仓储网络</li>
+                    </ul>
+                </div>
             </div>
-            <div class="service-card">
-                <div class="service-icon">📊</div>
-                <h3>数据分析优化</h3>
-                <p>市场数据分析、销售预测、库存管理，帮助客户优化运营效率，提升销售业绩。</p>
+        </div>
+    </div>
+
+    <!-- 产品展示 -->
+    <div class="container" id="products">
+        <h2 class="section-title">热门产品展示</h2>
+        <div class="products-grid">
+            <div class="product-card" onclick="openModal('product1Modal')">
+                <div class="product-image">🥤</div>
+                <div class="product-content">
+                    <h3 class="product-title">智能保温杯</h3>
+                    <p class="product-price">¥199 - ¥399</p>
+                    <p>温度显示、智能提醒、长效保温</p>
+                    <div class="product-actions">
+                        <button class="product-btn primary" onclick="event.stopPropagation();addToCart('智能保温杯')">加入询价</button>
+                        <button class="product-btn secondary" onclick="event.stopPropagation();openModal('product1Modal')">查看详情</button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" onclick="openModal('product2Modal')">
+                <div class="product-image">🧊</div>
+                <div class="product-content">
+                    <h3 class="product-title">运动水杯</h3>
+                    <p class="product-price">¥89 - ¥159</p>
+                    <p>防漏设计、便携挂钩、大容量</p>
+                    <div class="product-actions">
+                        <button class="product-btn primary" onclick="event.stopPropagation();addToCart('运动水杯')">加入询价</button>
+                        <button class="product-btn secondary" onclick="event.stopPropagation();openModal('product2Modal')">查看详情</button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" onclick="openModal('product3Modal')">
+                <div class="product-image">👶</div>
+                <div class="product-content">
+                    <h3 class="product-title">儿童水杯</h3>
+                    <p class="product-price">¥69 - ¥129</p>
+                    <p>安全材质、可爱造型、防摔设计</p>
+                    <div class="product-actions">
+                        <button class="product-btn primary" onclick="event.stopPropagation();addToCart('儿童水杯')">加入询价</button>
+                        <button class="product-btn secondary" onclick="event.stopPropagation();openModal('product3Modal')">查看详情</button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" onclick="openModal('product4Modal')">
+                <div class="product-image">🍷</div>
+                <div class="product-content">
+                    <h3 class="product-title">玻璃随行杯</h3>
+                    <p class="product-price">¥49 - ¥99</p>
+                    <p>高硼硅玻璃、便携设计、环保材质</p>
+                    <div class="product-actions">
+                        <button class="product-btn primary" onclick="event.stopPropagation();addToCart('玻璃随行杯')">加入询价</button>
+                        <button class="product-btn secondary" onclick="event.stopPropagation();openModal('product4Modal')">查看详情</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- 全球认证 -->
-    <section class="certifications" id="certifications">
+    <section style="background: #f8f9fa; padding: 4rem 2rem; margin: 4rem 0;" id="certifications">
         <div class="container">
             <h2 class="section-title">全球认证</h2>
-            <div class="cert-grid">
-                <div class="cert-item">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+                <div class="cert-item" style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('fdaModal')">
                     <h3>FDA认证</h3>
                     <p>美国食品药品监督管理局认证，确保产品符合美国食品安全标准。</p>
                 </div>
-                <div class="cert-item">
+                <div class="cert-item" style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('lfgbModal')">
                     <h3>LFGB认证</h3>
                     <p>德国食品接触材料认证，欧洲市场准入的重要标准。</p>
                 </div>
-                <div class="cert-item">
+                <div class="cert-item" style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('bpaModal')">
                     <h3>BPA-Free</h3>
                     <p>不含双酚A认证，符合现代健康饮水产品的环保要求。</p>
                 </div>
-                <div class="cert-item">
+                <div class="cert-item" style="background: white; padding: 2rem; border-radius: 10px; text-align: center; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('telecModal')">
                     <h3>TELEC认证</h3>
                     <p>日本无线电设备认证，智能水杯产品进入日本市场的必备认证。</p>
                 </div>
@@ -433,24 +727,24 @@
     <!-- 物流方案 -->
     <div class="container" id="logistics">
         <h2 class="section-title">物流方案</h2>
-        <div class="logistics">
-            <div class="logistics-step">
-                <div class="step-number">1</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 3rem 0;">
+            <div class="logistics-step" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('logistics1Modal')">
+                <div class="step-number" style="display: inline-block; background: #667eea; color: white; width: 40px; height: 40px; line-height: 40px; border-radius: 50%; text-align: center; margin-bottom: 1rem; font-weight: bold;">1</div>
                 <h3>专业包装</h3>
                 <p>采用防碎材料定制包装，确保水杯在运输过程中安全无损。</p>
             </div>
-            <div class="logistics-step">
-                <div class="step-number">2</div>
+            <div class="logistics-step" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('logistics2Modal')">
+                <div class="step-number" style="display: inline-block; background: #667eea; color: white; width: 40px; height: 40px; line-height: 40px; border-radius: 50%; text-align: center; margin-bottom: 1rem; font-weight: bold;">2</div>
                 <h3>温控运输</h3>
                 <p>针对特殊材质水杯提供恒温运输服务，防止温度变化影响产品质量。</p>
             </div>
-            <div class="logistics-step">
-                <div class="step-number">3</div>
+            <div class="logistics-step" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('logistics3Modal')">
+                <div class="step-number" style="display: inline-block; background: #667eea; color: white; width: 40px; height: 40px; line-height: 40px; border-radius: 50%; text-align: center; margin-bottom: 1rem; font-weight: bold;">3</div>
                 <h3>快速清关</h3>
                 <p>与各国海关建立良好合作关系，提供快速通关服务，缩短运输时间。</p>
             </div>
-            <div class="logistics-step">
-                <div class="step-number">4</div>
+            <div class="logistics-step" style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('logistics4Modal')">
+                <div class="step-number" style="display: inline-block; background: #667eea; color: white; width: 40px; height: 40px; line-height: 40px; border-radius: 50%; text-align: center; margin-bottom: 1rem; font-weight: bold;">4</div>
                 <h3>全程追踪</h3>
                 <p>提供实时物流追踪系统，客户可随时查看货物位置和状态。</p>
             </div>
@@ -460,27 +754,27 @@
     <!-- 新闻资讯 -->
     <div class="container" id="news">
         <h2 class="section-title">新闻资讯</h2>
-        <div class="news-grid">
-            <div class="news-card">
-                <div class="news-image">📰</div>
-                <div class="news-content">
-                    <div class="news-date">2026年3月10日</div>
+        <div class="news-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 3rem 0;">
+            <div class="news-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('news1Modal')">
+                <div class="news-image" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">📰</div>
+                <div class="news-content" style="padding: 1.5rem;">
+                    <div class="news-date" style="color: #667eea; font-size: 0.9rem; margin-bottom: 0.5rem;">2026年3月10日</div>
                     <h3>智能水杯在欧洲市场销量增长300%</h3>
                     <p>随着健康饮水意识的提升，智能水杯在欧洲市场迎来爆发式增长...</p>
                 </div>
             </div>
-            <div class="news-card">
-                <div class="news-image">🌐</div>
-                <div class="news-content">
-                    <div class="news-date">2026年3月5日</div>
+            <div class="news-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('news2Modal')">
+                <div class="news-image" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">🌐</div>
+                <div class="news-content" style="padding: 1.5rem;">
+                    <div class="news-date" style="color: #667eea; font-size: 0.9rem; margin-bottom: 0.5rem;">2026年3月5日</div>
                     <h3>日本市场新规：水杯产品需通过TELEC认证</h3>
                     <p>日本政府最新规定，所有带电子功能的智能水杯必须通过TELEC认证才能上市销售...</p>
                 </div>
             </div>
-            <div class="news-card">
-                <div class="news-image">🚀</div>
-                <div class="news-content">
-                    <div class="news-date">2026年2月28日</div>
+            <div class="news-card" style="background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer;" onclick="openModal('news3Modal')">
+                <div class="news-image" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">🚀</div>
+                <div class="news-content" style="padding: 1.5rem;">
+                    <div class="news-date" style="color: #667eea; font-size: 0.9rem; margin-bottom: 0.5rem;">2026年2月28日</div>
                     <h3>景辰云贸与50家新客户达成合作</h3>
                     <p>本月我们成功与50家水杯制造企业签订合作协议，帮助其产品进入国际市场...</p>
                 </div>
@@ -489,88 +783,103 @@
     </div>
 
     <!-- 页脚联系方式 -->
-    <footer class="footer" id="contact">
-        <div class="footer-content">
+    <footer class="footer" style="background: #2d3748; color: white; padding: 4rem 2rem 2rem; margin-top: 4rem;" id="contact">
+        <div class="footer-content" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem;">
             <div class="footer-section">
-                <h3>联系我们</h3>
-                <ul class="contact-info">
-                    <li>📍 地址：中国跨境电商产业园，深圳市南山区</li>
-                    <li>📞 电话：+86 400-123-4567</li>
-                    <li>📧 邮箱：contact@jingchenyunmao.com</li>
-                    <li>🕒 工作时间：周一至周五 9:00-18:00</li>
+                <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: #667eea;">联系我们</h3>
+                <ul class="contact-info" style="list-style: none;">
+                    <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">📍 地址：中国跨境电商产业园，深圳市南山区</li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">📞 电话：+86 400-123-4567</li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">📧 邮箱：contact@jingchenyunmao.com</li>
+                    <li style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">🕒 工作时间：周一至周五 9:00-18:00</li>
                 </ul>
             </div>
             
             <div class="footer-section">
-                <h3>快速链接</h3>
-                <ul class="contact-info">
-                    <li><a href="#home" style="color: white; text-decoration: none;">首页</a></li>
-                    <li><a href="#about" style="color: white; text-decoration: none;">关于我们</a></li>
-                    <li><a href="#services" style="color: white; text-decoration: none;">服务项目</a></li>
-                    <li><a href="#certifications" style="color: white; text-decoration: none;">全球认证</a></li>
+                <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: #667eea;">快速链接</h3>
+                <ul class="contact-info" style="list-style: none;">
+                    <li style="margin-bottom: 0.5rem;"><a href="#home" style="color: white; text-decoration: none;">首页</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="#about" style="color: white; text-decoration: none;">关于我们</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="#services" style="color: white; text-decoration: none;">服务项目</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="#products" style="color: white; text-decoration: none;">产品展示</a></li>
                 </ul>
             </div>
             
             <div class="footer-section">
-                <h3>关注我们</h3>
+                <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: #667eea;">关注我们</h3>
                 <p>获取最新行业资讯和公司动态</p>
-                <div class="social-links">
-                    <a href="#">📘</a>
-                    <a href="#">🐦</a>
-                    <a href="#">📷</a>
-                    <a href="#">💼</a>
+                <div class="social-links" style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" style="display: inline-block; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; text-align: center; line-height: 40px; color: white; transition: background 0.3s;">📘</a>
+                    <a href="#" style="display: inline-block; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; text-align: center; line-height: 40px; color: white; transition: background 0.3s;">🐦</a>
+                    <a href="#" style="display: inline-block; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; text-align: center; line-height: 40px; color: white; transition: background 0.3s;">📷</a>
+                    <a href="#" style="display: inline-block; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; text-align: center; line-height: 40px; color: white; transition: background 0.3s;">💼</a>
                 </div>
             </div>
             
             <div class="footer-section">
-                <h3>订阅资讯</h3>
+                <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: #667eea;">订阅资讯</h3>
                 <p>订阅我们的新闻通讯，获取行业洞察和优惠信息</p>
-                <form style="margin-top: 1rem;">
-                    <input type="email" placeholder="输入您的邮箱" style="width: 100%; padding: 0.8rem; border: none; border-radius: 5px; margin-bottom: 0.5rem;">
+                <form style="margin-top: 1rem;" onsubmit="subscribeNewsletter(event)">
+                    <input type="email" placeholder="输入您的邮箱" required style="width: 100%; padding: 0.8rem; border: none; border-radius: 5px; margin-bottom: 0.5rem;">
                     <button type="submit" style="width: 100%; padding: 0.8rem; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">订阅</button>
                 </form>
             </div>
         </div>
         
-        <div class="copyright">
+        <div class="copyright" style="text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: #a0aec0;">
             <p>© 2026 景辰云贸跨境电商有限公司 版权所有 | 粤ICP备12345678号</p>
             <p style="margin-top: 0.5rem;">本网站由GitHub Pages提供技术支持</p>
         </div>
     </footer>
 
-    <script>
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" onclick="scrollToTop()">↑</button>
 
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if(window.scrollY > 100) {
-                navbar.style.padding = '0.5rem 2rem';
-            } else {
-                navbar.style.padding = '1rem 2rem';
-            }
+    <!-- 模态框示例 -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>公司介绍视频</h3>
+                <button class="modal-close" onclick="closeModal('videoModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <p>这里是公司介绍视频内容。在实际应用中，您可以嵌入YouTube或本地视频。</p>
+                <div style="background: #f8f9fa; padding: 2rem; text-align: center; border-radius: 10px; margin: 1rem 0;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🎬</div>
+                    <p>视频播放区域</p>
+                </div>
+                <p>景辰云贸专注于水杯跨境电商，为客户提供全方位的解决方案。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 询价购物车提示 -->
+    <div id="cartToast" style="position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: #667eea; color: white; padding: 1rem 2rem; border-radius: 50px; box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3); transition: transform 0.5s ease; z-index: 1001; display: none;">
+        <span id="cartMessage"></span>
+        <button onclick="closeCartToast()" style="background: none; border: none; color: white; margin-left: 1rem; cursor: pointer;">×</button>
+    </div>
+
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化数据统计动画
+            animateStats();
+            
+            // 初始化导航栏滚动效果
+            initNavbarScroll();
+            
+            // 初始化返回顶部按钮
+            initBackToTop();
+            
+            // 初始化导航链接点击效果
+            initNavLinks();
         });
 
         // 数据统计动画
         function animateStats() {
-            const stats = document.querySelectorAll('.stat-number');
-            stats.forEach(stat => {
-                const target = parseInt(stat.textContent);
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.getAttribute('data-target'));
                 let current = 0;
                 const increment = target / 50;
                 const timer = setInterval(() => {
@@ -584,33 +893,173 @@
             });
         }
 
-        // 当统计区域进入视口时触发动画
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    animateStats();
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 });
-
-        const statsSection = document.querySelector('.stats');
-        if(statsSection) {
-            observer.observe(statsSection);
+        // 显示统计详情
+        function showStatDetail(type) {
+            const details = {
+                clients: '我们已成功帮助500多家水杯制造企业进入全球市场，涵盖从初创企业到知名品牌的各类客户。',
+                countries: '业务覆盖全球50多个国家和地区，包括欧美、日韩、东南亚、中东等主要市场。',
+                satisfaction: '98%的客户对我们的服务表示满意，回头客比例高达85%，建立了长期稳定的合作关系。',
+                experience: '拥有8年跨境电商行业经验，团队核心成员均具备10年以上国际贸易背景。'
+            };
+            alert(details[type] || '详细信息');
         }
 
-        // 表单提交
-        const subscribeForm = document.querySelector('form');
-        if(subscribeForm) {
-            subscribeForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = this.querySelector('input[type="email"]').value;
-                if(email) {
-                    alert('感谢订阅！我们将定期向 ' + email + ' 发送最新资讯。');
-                    this.reset();
+        // 切换服务详情
+        function toggleServiceDetails(card) {
+            card.classList.toggle('expanded');
+            const button = card.querySelector('.service-toggle');
+            if(card.classList.contains('expanded')) {
+                button.textContent = '收起详情';
+            } else {
+                button.textContent = '查看详情';
+            }
+        }
+
+        // 打开模态框
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if(modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // 关闭模态框
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if(modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // 添加到询价车
+        function addToCart(productName) {
+            const cartMessage = document.getElementById('cartMessage');
+            const cartToast = document.getElementById('cartToast');
+            
+            cartMessage.textContent = `"${productName}" 已添加到询价清单`;
+            cartToast.style.display = 'block';
+            
+            setTimeout(() => {
+                cartToast.style.transform = 'translateX(-50%) translateY(0)';
+            }, 10);
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                closeCartToast();
+            }, 3000);
+        }
+
+        // 关闭询价提示
+        function closeCartToast() {
+            const cartToast = document.getElementById('cartToast');
+            cartToast.style.transform = 'translateX(-50%) translateY(100px)';
+            setTimeout(() => {
+                cartToast.style.display = 'none';
+            }, 500);
+        }
+
+        // 订阅新闻通讯
+        function subscribeNewsletter(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            alert(`感谢订阅！我们将定期向 ${email} 发送最新资讯。`);
+            event.target.reset();
+        }
+
+        // 导航栏滚动效果
+        function initNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', function() {
+                if(window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
                 }
             });
         }
+
+        // 返回顶部功能
+        function initBackToTop() {
+            const backToTopBtn = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', function() {
+                if(window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // 导航链接点击效果
+        function initNavLinks() {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const sections = document.querySelectorAll('section, .container, footer');
+            
+            // 点击导航链接时更新活动状态
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // 滚动时更新活动状态
+            window.addEventListener('scroll', function() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if(scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // 点击模态框外部关闭
+        document.addEventListener('click', function(event) {
+            if(event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // 键盘ESC键关闭模态框
+        document.addEventListener('keydown', function(event) {
+            if(event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal.active');
+                modals.forEach(modal => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+
+        // 页面加载动画
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
     </script>
 </body>
 </html>

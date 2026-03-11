@@ -3,150 +3,614 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>景辰云贸 - 水杯跨境电商</title>
+    <title>景辰云贸 - 专业水杯跨境电商解决方案</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            min-height: 100vh;
-            padding: 40px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
         }
+        
+        /* 导航栏 */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* Hero区域 */
+        .hero {
+            background: linear-gradient(rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)), url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.95;
+        }
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* 主要内容区域 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        .section-title {
             text-align: center;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 40px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-        .stat {
-            background: rgba(255,255,255,0.1);
-            padding: 25px;
-            border-radius: 15px;
-            min-width: 180px;
-            backdrop-filter: blur(10px);
-        }
-        .stat-value {
             font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #667eea;
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        /* 数据统计 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover {
+            transform: translateY(-10px);
+        }
+        .stat-number {
+            font-size: 3rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            color: #667eea;
+            margin-bottom: 0.5rem;
         }
         .stat-label {
-            font-size: 1rem;
-            opacity: 0.8;
+            font-size: 1.1rem;
+            color: #666;
         }
-        .services {
+        
+        /* 服务项目 */
+        .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 50px 0;
+            gap: 2rem;
+            margin: 3rem 0;
         }
-        .service {
-            background: rgba(255,255,255,0.1);
-            padding: 30px;
+        .service-card {
+            background: white;
+            padding: 2rem;
             border-radius: 15px;
-            text-align: left;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
         }
-        .service h3 {
-            margin-bottom: 15px;
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .service-card h3 {
+            color: #333;
+            margin-bottom: 1rem;
             font-size: 1.5rem;
         }
-        .service p {
-            opacity: 0.9;
-            line-height: 1.6;
+        
+        /* 全球认证 */
+        .certifications {
+            background: #f8f9fa;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
         }
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .cert-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* 物流方案 */
+        .logistics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .logistics-step {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        /* 新闻资讯 */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .news-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .news-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+        }
+        .news-content {
+            padding: 1.5rem;
+        }
+        .news-date {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 页脚 */
         .footer {
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-            opacity: 0.8;
+            background: #2d3748;
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 4rem;
         }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #667eea;
+        }
+        .contact-info {
+            list-style: none;
+        }
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            transition: background 0.3s;
+        }
+        .social-links a:hover {
+            background: #667eea;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #a0aec0;
+        }
+        
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            .stats { gap: 15px; }
-            .stat { min-width: 140px; padding: 20px; }
-            .services { grid-template-columns: 1fr; }
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">景辰云贸</a>
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#about">关于我们</a></li>
+                <li><a href="#services">服务项目</a></li>
+                <li><a href="#certifications">全球认证</a></li>
+                <li><a href="#logistics">物流方案</a></li>
+                <li><a href="#news">新闻资讯</a></li>
+                <li><a href="#contact">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section class="hero" id="home">
+        <h1>连接中国水杯制造与世界市场</h1>
+        <p>景辰云贸专注于水杯类产品的跨境电商，8年行业经验，帮助500+企业成功进入全球市场</p>
+        <a href="#contact" class="cta-button">立即咨询</a>
+    </section>
+
+    <!-- 数据统计 -->
     <div class="container">
-        <h1>景辰云贸 - 水杯跨境电商</h1>
-        <p class="subtitle">专注于将中国优质水杯销往全球市场，提供专业的跨境电商解决方案。我们帮助中国水杯制造商进入欧美、日韩、东南亚等国际市场。</p>
-        
         <div class="stats">
-            <div class="stat">
-                <div class="stat-value">500+</div>
+            <div class="stat-card">
+                <div class="stat-number">500+</div>
                 <div class="stat-label">合作企业</div>
             </div>
-            <div class="stat">
-                <div class="stat-value">50+</div>
+            <div class="stat-card">
+                <div class="stat-number">50+</div>
                 <div class="stat-label">覆盖国家</div>
             </div>
-            <div class="stat">
-                <div class="stat-value">98%</div>
+            <div class="stat-card">
+                <div class="stat-number">98%</div>
                 <div class="stat-label">客户满意度</div>
             </div>
-            <div class="stat">
-                <div class="stat-value">8年</div>
+            <div class="stat-card">
+                <div class="stat-number">8年</div>
                 <div class="stat-label">行业经验</div>
             </div>
         </div>
-        
-        <div class="services">
-            <div class="service">
-                <h3>🌍 水杯全球分销</h3>
-                <p>将中国优质水杯销往欧美、日韩、东南亚等全球主要市场。我们提供完整的市场进入策略、渠道建设和销售网络搭建服务。</p>
-            </div>
-            <div class="service">
-                <h3>✅ 水杯质量认证</h3>
-                <p>FDA、LFGB、BPA-Free、TELEC等国际水杯安全认证服务。我们帮助产品符合目标市场的法规要求，确保顺利通关。</p>
-            </div>
-            <div class="service">
-                <h3>🚚 专业水杯物流</h3>
-                <p>针对水杯产品的特殊包装和全球物流解决方案。我们提供防碎包装、温控运输和快速清关服务，确保产品安全到达。</p>
-            </div>
-        </div>
-        
-        <div class="services">
-            <div class="service">
-                <h3>📦 产品品类</h3>
-                <p>• 保温杯<br>• 玻璃杯<br>• 随行杯<br>• 智能水杯<br>• 运动水杯<br>• 儿童水杯</p>
-            </div>
-            <div class="service">
-                <h3>🎯 目标市场</h3>
-                <p>• 美国 & 加拿大<br>• 欧洲各国<br>• 日本 & 韩国<br>• 东南亚国家<br>• 澳大利亚<br>• 中东地区</p>
-            </div>
-            <div class="service">
-                <h3>📞 联系我们</h3>
-                <p>邮箱：contact@jingchenyunmao.com<br>电话：+86 400-xxx-xxxx<br>地址：中国跨境电商产业园</p>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>© 2026 景辰云贸跨境电商有限公司 版权所有</p>
-            <p>GitHub Pages部署版本 | 网站正在持续优化中</p>
+    </div>
+
+    <!-- 关于我们 -->
+    <div class="container" id="about">
+        <h2 class="section-title">关于我们</h2>
+        <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                景辰云贸成立于2018年，是一家专注于水杯类产品的专业跨境电商公司。我们致力于将中国优质的水杯产品推向全球市场，为客户提供从产品选型、质量认证到国际物流的一站式解决方案。
+            </p>
+            <p style="font-size: 1.1rem; color: #666;">
+                我们的团队由跨境电商专家、国际认证工程师和物流专家组成，拥有丰富的行业经验和成功案例。我们理解不同市场的需求差异，能够为客户量身定制最适合的出海策略。
+            </p>
         </div>
     </div>
+
+    <!-- 服务项目 -->
+    <div class="container" id="services">
+        <h2 class="section-title">服务项目</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🌍</div>
+                <h3>全球市场拓展</h3>
+                <p>专业市场调研、渠道建设、品牌推广，帮助水杯产品进入欧美、日韩、东南亚等全球主要市场。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">✅</div>
+                <h3>产品认证服务</h3>
+                <p>FDA、LFGB、BPA-Free、TELEC等国际认证，确保产品符合目标市场法规要求，顺利通关。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🚚</div>
+                <h3>专业物流方案</h3>
+                <p>针对水杯产品的特殊包装、温控运输、快速清关，确保产品安全准时到达目的地。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📊</div>
+                <h3>数据分析优化</h3>
+                <p>市场数据分析、销售预测、库存管理，帮助客户优化运营效率，提升销售业绩。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全球认证 -->
+    <section class="certifications" id="certifications">
+        <div class="container">
+            <h2 class="section-title">全球认证</h2>
+            <div class="cert-grid">
+                <div class="cert-item">
+                    <h3>FDA认证</h3>
+                    <p>美国食品药品监督管理局认证，确保产品符合美国食品安全标准。</p>
+                </div>
+                <div class="cert-item">
+                    <h3>LFGB认证</h3>
+                    <p>德国食品接触材料认证，欧洲市场准入的重要标准。</p>
+                </div>
+                <div class="cert-item">
+                    <h3>BPA-Free</h3>
+                    <p>不含双酚A认证，符合现代健康饮水产品的环保要求。</p>
+                </div>
+                <div class="cert-item">
+                    <h3>TELEC认证</h3>
+                    <p>日本无线电设备认证，智能水杯产品进入日本市场的必备认证。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 物流方案 -->
+    <div class="container" id="logistics">
+        <h2 class="section-title">物流方案</h2>
+        <div class="logistics">
+            <div class="logistics-step">
+                <div class="step-number">1</div>
+                <h3>专业包装</h3>
+                <p>采用防碎材料定制包装，确保水杯在运输过程中安全无损。</p>
+            </div>
+            <div class="logistics-step">
+                <div class="step-number">2</div>
+                <h3>温控运输</h3>
+                <p>针对特殊材质水杯提供恒温运输服务，防止温度变化影响产品质量。</p>
+            </div>
+            <div class="logistics-step">
+                <div class="step-number">3</div>
+                <h3>快速清关</h3>
+                <p>与各国海关建立良好合作关系，提供快速通关服务，缩短运输时间。</p>
+            </div>
+            <div class="logistics-step">
+                <div class="step-number">4</div>
+                <h3>全程追踪</h3>
+                <p>提供实时物流追踪系统，客户可随时查看货物位置和状态。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新闻资讯 -->
+    <div class="container" id="news">
+        <h2 class="section-title">新闻资讯</h2>
+        <div class="news-grid">
+            <div class="news-card">
+                <div class="news-image">📰</div>
+                <div class="news-content">
+                    <div class="news-date">2026年3月10日</div>
+                    <h3>智能水杯在欧洲市场销量增长300%</h3>
+                    <p>随着健康饮水意识的提升，智能水杯在欧洲市场迎来爆发式增长...</p>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-image">🌐</div>
+                <div class="news-content">
+                    <div class="news-date">2026年3月5日</div>
+                    <h3>日本市场新规：水杯产品需通过TELEC认证</h3>
+                    <p>日本政府最新规定，所有带电子功能的智能水杯必须通过TELEC认证才能上市销售...</p>
+                </div>
+            </div>
+            <div class="news-card">
+                <div class="news-image">🚀</div>
+                <div class="news-content">
+                    <div class="news-date">2026年2月28日</div>
+                    <h3>景辰云贸与50家新客户达成合作</h3>
+                    <p>本月我们成功与50家水杯制造企业签订合作协议，帮助其产品进入国际市场...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚联系方式 -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <ul class="contact-info">
+                    <li>📍 地址：中国跨境电商产业园，深圳市南山区</li>
+                    <li>📞 电话：+86 400-123-4567</li>
+                    <li>📧 邮箱：contact@jingchenyunmao.com</li>
+                    <li>🕒 工作时间：周一至周五 9:00-18:00</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul class="contact-info">
+                    <li><a href="#home" style="color: white; text-decoration: none;">首页</a></li>
+                    <li><a href="#about" style="color: white; text-decoration: none;">关于我们</a></li>
+                    <li><a href="#services" style="color: white; text-decoration: none;">服务项目</a></li>
+                    <li><a href="#certifications" style="color: white; text-decoration: none;">全球认证</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>关注我们</h3>
+                <p>获取最新行业资讯和公司动态</p>
+                <div class="social-links">
+                    <a href="#">📘</a>
+                    <a href="#">🐦</a>
+                    <a href="#">📷</a>
+                    <a href="#">💼</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>订阅资讯</h3>
+                <p>订阅我们的新闻通讯，获取行业洞察和优惠信息</p>
+                <form style="margin-top: 1rem;">
+                    <input type="email" placeholder="输入您的邮箱" style="width: 100%; padding: 0.8rem; border: none; border-radius: 5px; margin-bottom: 0.5rem;">
+                    <button type="submit" style="width: 100%; padding: 0.8rem; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">订阅</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2026 景辰云贸跨境电商有限公司 版权所有 | 粤ICP备12345678号</p>
+            <p style="margin-top: 0.5rem;">本网站由GitHub Pages提供技术支持</p>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if(window.scrollY > 100) {
+                navbar.style.padding = '0.5rem 2rem';
+            } else {
+                navbar.style.padding = '1rem 2rem';
+            }
+        });
+
+        // 数据统计动画
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if(current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.floor(current) + (stat.textContent.includes('+') ? '+' : '');
+                }, 30);
+            });
+        }
+
+        // 当统计区域进入视口时触发动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    animateStats();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statsSection = document.querySelector('.stats');
+        if(statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // 表单提交
+        const subscribeForm = document.querySelector('form');
+        if(subscribeForm) {
+            subscribeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                if(email) {
+                    alert('感谢订阅！我们将定期向 ' + email + ' 发送最新资讯。');
+                    this.reset();
+                }
+            });
+        }
+    </script>
 </body>
 </html>

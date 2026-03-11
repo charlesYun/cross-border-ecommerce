@@ -1,17 +1,152 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="全球跨境电商解决方案提供商，连接中国制造与世界市场">
-    <title>景辰云贸 - 跨境电商解决方案专家</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>景辰云贸 - 水杯跨境电商</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 40px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            min-width: 180px;
+            backdrop-filter: blur(10px);
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+        .service {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+        }
+        .service h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .service p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.8;
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .stats { gap: 15px; }
+            .stat { min-width: 140px; padding: 20px; }
+            .services { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>景辰云贸 - 水杯跨境电商</h1>
+        <p class="subtitle">专注于将中国优质水杯销往全球市场，提供专业的跨境电商解决方案。我们帮助中国水杯制造商进入欧美、日韩、东南亚等国际市场。</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">500+</div>
+                <div class="stat-label">合作企业</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">50+</div>
+                <div class="stat-label">覆盖国家</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">98%</div>
+                <div class="stat-label">客户满意度</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">8年</div>
+                <div class="stat-label">行业经验</div>
+            </div>
+        </div>
+        
+        <div class="services">
+            <div class="service">
+                <h3>🌍 水杯全球分销</h3>
+                <p>将中国优质水杯销往欧美、日韩、东南亚等全球主要市场。我们提供完整的市场进入策略、渠道建设和销售网络搭建服务。</p>
+            </div>
+            <div class="service">
+                <h3>✅ 水杯质量认证</h3>
+                <p>FDA、LFGB、BPA-Free、TELEC等国际水杯安全认证服务。我们帮助产品符合目标市场的法规要求，确保顺利通关。</p>
+            </div>
+            <div class="service">
+                <h3>🚚 专业水杯物流</h3>
+                <p>针对水杯产品的特殊包装和全球物流解决方案。我们提供防碎包装、温控运输和快速清关服务，确保产品安全到达。</p>
+            </div>
+        </div>
+        
+        <div class="services">
+            <div class="service">
+                <h3>📦 产品品类</h3>
+                <p>• 保温杯<br>• 玻璃杯<br>• 随行杯<br>• 智能水杯<br>• 运动水杯<br>• 儿童水杯</p>
+            </div>
+            <div class="service">
+                <h3>🎯 目标市场</h3>
+                <p>• 美国 & 加拿大<br>• 欧洲各国<br>• 日本 & 韩国<br>• 东南亚国家<br>• 澳大利亚<br>• 中东地区</p>
+            </div>
+            <div class="service">
+                <h3>📞 联系我们</h3>
+                <p>邮箱：contact@jingchenyunmao.com<br>电话：+86 400-xxx-xxxx<br>地址：中国跨境电商产业园</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 景辰云贸跨境电商有限公司 版权所有</p>
+            <p>GitHub Pages部署版本 | 网站正在持续优化中</p>
+        </div>
+    </div>
+</body>
 </html>

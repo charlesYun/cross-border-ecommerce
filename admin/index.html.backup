@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>景辰云贸 - 管理后台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a67d8;
+            --secondary: #764ba2;
+            --accent: #f56565;
+            --light: #f8f9fa;
+            --dark: #2d3748;
+            --gray: #718096;
+            --success: #48bb78;
+            --warning: #ed8936;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        /* 登录页面 */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem;
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: var(--radius);
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-header h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+            color: var(--gray);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* 管理后台主界面 */
+        .admin-container {
+            display: none;
+            min-height: 100vh;
+        }
+        
+        /* 侧边栏 */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 250px;
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
+        }
+        
+        .sidebar-header h2 {
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 0.25rem;
+        }
+        
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .sidebar-nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .sidebar-nav a.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .sidebar-nav i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            color: var(--dark);
+            font-size: 1.75rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* 仪表板 */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .stat-icon.primary { background: var(--primary); }
+        .stat-icon.success { background: var(--success); }
+        .stat-icon.warning { background: var(--warning); }
+        .stat-icon.accent { background: var(--accent); }
+        
+        .stat-content h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-content p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* 内容管理 */
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .section-header h2 {
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            width: auto;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--accent);
+            color: white;
+        }
+        
+        /* 表格 */
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .data-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .table-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* 表单 */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .modal-header h3 {
+            color: var(--dark);
+            font-size: 1.25rem;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            
+            .main-content {
+                margin-left: 200px;
+            }
+            
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .admin-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录页面 -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <div class="login-header">
+                <h1><i class="fas fa-wine-bottle"></i> 景辰云贸</h1>
+                <p>管理后台登录</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" class="form-control" placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" class="form-control" placeholder="请输入密码" required>
+                </div>
+                <button type="submit" class="btn btn-primary">登录</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 管理后台主界面 -->
+    <div class="admin-container" id="adminPanel">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-wine-bottle"></i> 景辰云贸</h2>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">管理后台</p>
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="#dashboard" class="active" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>仪表板</span>
+                    </a></li>
+                    <li><a href="#products" onclick="showSection('products')">
+                        <i class="fas fa-box-open"></i>
+                        <span>产品管理</span>
+                    </a></li>
+                    <li><a href="#services" onclick="showSection('services')">
+                        <i class="fas fa-cogs"></i>
+                        <span>服务管理</span>
+                    </a></li>
+                    <li><a href="#content" onclick="showSection('content')">
+                        <i class="fas fa-file-alt"></i>
+                        <span>内容管理</span>
+                    </a></li>
+                    <li><a href="#settings" onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i>
+                        <span>系统设置</span>
+                    </a></li>
+                    <li><a href="#" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>退出登录</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <div class="header">
+                <h1 id="pageTitle">仪表板</h1>
+                <div class="user-info">
+                    <div class="user-avatar">管</div>
+                    <span>管理员</span>
+                </div>
+            </div>
+            
+            <!-- 仪表板 -->
+            <div id="dashboard" class="content-section active">
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="productCount">12</h3>
+                            <p>产品数量</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="serviceCount">6</h3>
+                            <p>服务项目</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="newsCount">8</h3>
+                            <p>新闻资讯</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon accent">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="visitorCount">1,234</h3>
+                            <p>今日访问</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <h2 style="margin-bottom: 1rem; color: var(--dark);">快速操作</h2>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="showSection('products')">
+                            <i class="fas fa-plus"></i> 添加新产品
+                        </button>
+                        <button class="btn btn-success" onclick="showSection('services')">
+                            <i class="fas fa-plus"></i> 添加新服务
+                        </button>
+                        <button class="btn btn-warning" onclick="showSection('content')">
+                            <i class="fas fa-plus"></i> 发布新内容
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 产品管理 -->
+            <div id="products" class="content-section">
+                <div class="section-header">
+                    <h2>产品管理</h2>
+                    <button class="btn btn-primary btn-sm" onclick="openModal('productModal')">
+                        <i class="fas fa-plus"></i> 添加产品
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>产品名称</th>
+                                <th>类别</th>
+                                <th>价格</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTable">
+                            <tr>
+                                <td>001</td>
+                                <td>智能保温杯</td>
+                                <td>保温杯</td>
+                                <td>¥199-399</td>
+                                <td><span style="color: var(--success);">上架</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="editProduct(1)">编辑</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteProduct(1)">删除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>002</td>
+                                <td>运动水杯</td>
+                                <td>运动杯</td>
+                                <td>¥89-159</td>
+                                <td><span style="color: var(--success);">上架</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="editProduct(2)">编辑</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteProduct(2)">删除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>003</td>
+                                <td>儿童水杯</td>
+                                <td>儿童杯</td>
+                                <td>¥69-129</td>
+                                <td><span style="color: var(--success);">上架</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="editProduct(3)">编辑</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteProduct(3)">删除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 服务管理 -->
+            <div id="services" class="content-section">
+                <div class="section-header">
+                    <h2>服务项目管理</h2>
+                    <button class="btn btn-primary btn-sm" onclick="openModal('serviceModal')">
+                        <i class="fas fa-plus"></i> 添加服务
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>服务名称</th>
+                                <th>描述</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="serviceTable">
+                            <tr>
+                                <td>S001</td>
+                                <td>全球市场拓展</td>
+                                <td>帮助产品进入全球主要市场</td>
+                                <td><span style="color: var(--success);">启用</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="editService(1)">编辑</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteService(1)">删除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>S002</td>
+                                <td>产品认证服务</td>
+                                <td>FDA、LFGB等国际认证</td>
+                                <td><span style="color: var(--success);">启用</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="editService(2)">编辑</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteService(2)">删除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>S003</td>
+                                <td>专业物流方案</td>
+                                <td>特殊包装、温控运输</td>
+                                <td><span style="color: var(--success);">启用</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="editService(3)">编辑</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteService(3)">删除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 内容管理 -->
+            <div id="content" class="content-section">
+                <div class="section-header">
+                    <h2>内容管理</h2>
+                    <button class="btn btn-primary btn-sm" onclick="openModal('contentModal')">
+                        <i class="fas fa-plus"></i> 添加内容
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>标题</th>
+                                <th>类型</th>
+                                <th>发布日期</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contentTable">
+                            <tr>
+                                <td>C001</td>
+                                <td>智能水杯在欧洲市场销量增长300%</td>
+                                <td>新闻</td>
+                                <td>2026-03-10</td>
+                                <td><span style="color: var(--success);">发布</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="editContent(1)">编辑</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteContent(1)">删除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>C002</td>
+                                <td>日本市场新规：水杯产品需通过TELEC认证</td>
+                                <td>新闻</td>
+                                <td>2026-03-05</td>
+                                <td><span style="color: var(--success);">发布</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn btn-primary btn-sm" onclick="editContent(2)">编辑</button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteContent(2)">删除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 系统设置 -->
+            <div id="settings" class="content-section">
+                <div class="section-header">
+                    <h2>系统设置</h2>
+                </div>
+                
+                <form id="settingsForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="siteName">网站名称</label>
+                            <input type="text" id="siteName" class="form-control" value="景辰云贸" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="siteUrl">网站地址</label>
+                            <input type="url" id="siteUrl" class="form-control" value="https://charlesyun.github.io/cross-border-ecommerce/" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contactEmail">联系邮箱</label>
+                            <input type="email" id="contactEmail" class="form-control" value="contact@jingchenyunmao.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">联系电话</label>
+                            <input type="tel" id="contactPhone" class="form-control" value="+86 400-123-4567" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="siteDescription">网站描述</label>
+                        <textarea id="siteDescription" class="form-control" rows="4" required>景辰云贸专注于水杯类产品的跨境电商，8年行业经验，帮助500+企业成功进入全球市场</textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary" onclick="saveSettings()">保存设置</button>
+                        <button type="button" class="btn" onclick="resetSettings()">重置</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    
+    <!-- 产品编辑模态框 -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="productModalTitle">添加新产品</h3>
+                <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+            </div>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label for="productName">产品名称</label>
+                    <input type="text" id="productName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="productCategory">产品类别</label>
+                    <select id="productCategory" class="form-control" required>
+                        <option value="">请选择类别</option>
+                        <option value="保温杯">保温杯</option>
+                        <option value="运动杯">运动杯</option>
+                        <option value="儿童杯">儿童杯</option>
+                        <option value="玻璃杯">玻璃杯</option>
+                        <option value="智能杯">智能杯</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPriceMin">最低价格</label>
+                        <input type="number" id="productPriceMin" class="form-control" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPriceMax">最高价格</label>
+                        <input type="number" id="productPriceMax" class="form-control" min="0" step="0.01" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="productDescription">产品描述</label>
+                    <textarea id="productDescription" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="productStatus">状态</label>
+                    <select id="productStatus" class="form-control" required>
+                        <option value="上架">上架</option>
+                        <option value="下架">下架</option>
+                        <option value="草稿">草稿</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保存产品</button>
+                    <button type="button" class="btn" onclick="closeModal('productModal')">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 服务编辑模态框 -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="serviceModalTitle">添加新服务</h3>
+                <button class="modal-close" onclick="closeModal('serviceModal')">&times;</button>
+            </div>
+            <form id="serviceForm">
+                <input type="hidden" id="serviceId">
+                <div class="form-group">
+                    <label for="serviceName">服务名称</label>
+                    <input type="text" id="serviceName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="serviceDescription">服务描述</label>
+                    <textarea id="serviceDescription" class="form-control" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="serviceIcon">图标</label>
+                    <select id="serviceIcon" class="form-control" required>
+                        <option value="fa-globe-americas">🌍 全球</option>
+                        <option value="fa-certificate">✅ 认证</option>
+                        <option value="fa-shipping-fast">🚚 物流</option>
+                        <option value="fa-chart-line">📊 分析</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="serviceStatus">状态</label>
+                    <select id="serviceStatus" class="form-control" required>
+                        <option value="启用">启用</option>
+                        <option value="禁用">禁用</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保存服务</button>
+                    <button type="button" class="btn" onclick="closeModal('serviceModal')">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 内容编辑模态框 -->
+    <div class="modal" id="contentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="contentModalTitle">添加新内容</h3>
+                <button class="modal-close" onclick="closeModal('contentModal')">&times;</button>
+            </div>
+            <form id="contentForm">
+                <input type="hidden" id="contentId">
+                <div class="form-group">
+                    <label for="contentTitle">标题</label>
+                    <input type="text" id="contentTitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="contentType">类型</label>
+                    <select id="contentType" class="form-control" required>
+                        <option value="新闻">新闻</option>
+                        <option value="公告">公告</option>
+                        <option value="活动">活动</option>
+                        <option value="教程">教程</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="contentDate">发布日期</label>
+                    <input type="date" id="contentDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="contentBody">内容</label>
+                    <textarea id="contentBody" class="form-control" rows="6" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="contentStatus">状态</label>
+                    <select id="contentStatus" class="form-control" required>
+                        <option value="发布">发布</option>
+                        <option value="草稿">草稿</option>
+                        <option value="隐藏">隐藏</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保存内容</button>
+                    <button type="button" class="btn" onclick="closeModal('contentModal')">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // 模拟登录（实际项目中需要后端验证）
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // 简单验证（实际项目需要后端验证）
+            if (username && password) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                localStorage.setItem('adminLoggedIn', 'true');
+            } else {
+                alert('请输入用户名和密码');
+            }
+        });
+        
+        // 检查登录状态
+        if (localStorage.getItem('adminLoggedIn') === 'true') {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+        }
+        
+        // 退出登录
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            location.reload();
+        }
+        
+        // 显示/隐藏内容区域
+        function showSection(sectionId) {
+            // 更新页面标题
+            const titles = {
+                dashboard: '仪表板',
+                products: '产品管理',
+                services: '服务项目管理',
+                content: '内容管理',
+                settings: '系统设置'
+            };
+            document.getElementById('pageTitle').textContent = titles[sectionId] || '管理后台';
+            
+            // 更新导航激活状态
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`.sidebar-nav a[href="#${sectionId}"]`).classList.add('active');
+            
+            // 显示对应内容区域
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+        
+        // 模态框控制
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            // 重置表单
+            document.querySelector(`#${modalId} form`).reset();
+        }
+        
+        // 点击模态框外部关闭
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+        
+        // 产品管理功能
+        let products = [
+            { id: 1, name: '智能保温杯', category: '保温杯', priceMin: 199, priceMax: 399, description: '温度显示、智能提醒、长效保温', status: '上架' },
+            { id: 2, name: '运动水杯', category: '运动杯', priceMin: 89, priceMax: 159, description: '防漏设计、便携挂钩、大容量', status: '上架' },
+            { id: 3, name: '儿童水杯', category: '儿童杯', priceMin: 69, priceMax: 129, description: '安全材质、可爱造型、防摔设计', status: '上架' }
+        ];
+        
+        let services = [
+            { id: 1, name: '全球市场拓展', description: '专业市场调研、渠道建设、品牌推广，帮助水杯产品进入全球主要市场。', icon: 'fa-globe-americas', status: '启用' },
+            { id: 2, name: '产品认证服务', description: 'FDA、LFGB、BPA-Free等国际认证，确保产品符合目标市场法规要求。', icon: 'fa-certificate', status: '启用' },
+            { id: 3, name: '专业物流方案', description: '针对水杯产品的特殊包装、温控运输、快速清关，确保产品安全准时到达。', icon: 'fa-shipping-fast', status: '启用' }
+        ];
+        
+        let contents = [
+            { id: 1, title: '智能水杯在欧洲市场销量增长300%', type: '新闻', date: '2026-03-10', body: '随着健康饮水意识的提升，智能水杯在欧洲市场迎来爆发式增长...', status: '发布' },
+            { id: 2, title: '日本市场新规：水杯产品需通过TELEC认证', type: '新闻', date: '2026-03-05', body: '日本政府最新规定，所有带电子功能的智能水杯必须通过TELEC认证才能上市销售...', status: '发布' }
+        ];
+        
+        // 初始化数据
+        function initData() {
+            updateProductTable();
+            updateServiceTable();
+            updateContentTable();
+            updateDashboardStats();
+        }
+        
+        // 更新产品表格
+        function updateProductTable() {
+            const table = document.getElementById('productTable');
+            table.innerHTML = '';
+            
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${String(product.id).padStart(3, '0')}</td>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>¥${product.priceMin}-${product.priceMax}</td>
+                    <td><span style="color: ${product.status === '上架' ? 'var(--success)' : 'var(--accent)'};">${product.status}</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-primary btn-sm" onclick="editProduct(${product.id})">编辑</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">删除</button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+            
+            document.getElementById('productCount').textContent = products.length;
+        }
+        
+        // 编辑产品
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            
+            document.getElementById('productModalTitle').textContent = '编辑产品';
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productPriceMin').value = product.priceMin;
+            document.getElementById('productPriceMax').value = product.priceMax;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('productStatus').value = product.status;
+            
+            openModal('productModal');
+        }
+        
+        // 删除产品
+        function deleteProduct(id) {
+            if (confirm('确定要删除这个产品吗？')) {
+                products = products.filter(p => p.id !== id);
+                updateProductTable();
+                alert('产品删除成功！');
+            }
+        }
+        
+        // 保存产品
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('productId').value) || Date.now();
+            const product = {
+                id: id,
+                name: document.getElementById('productName').value,
+                category: document.getElementById('productCategory').value,
+                priceMin: parseFloat(document.getElementById('productPriceMin').value),
+                priceMax: parseFloat(document.getElementById('productPriceMax').value),
+                description: document.getElementById('productDescription').value,
+                status: document.getElementById('productStatus').value
+            };
+            
+            const existingIndex = products.findIndex(p => p.id === id);
+            if (existingIndex >= 0) {
+                products[existingIndex] = product;
+            } else {
+                products.push(product);
+            }
+            
+            updateProductTable();
+            closeModal('productModal');
+            alert('产品保存成功！');
+        });
+        
+        // 更新服务表格
+        function updateServiceTable() {
+            const table = document.getElementById('serviceTable');
+            table.innerHTML = '';
+            
+            services.forEach(service => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>S${String(service.id).padStart(3, '0')}</td>
+                    <td>${service.name}</td>
+                    <td>${service.description.substring(0, 50)}...</td>
+                    <td><span style="color: ${service.status === '启用' ? 'var(--success)' : 'var(--accent)'};">${service.status}</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-primary btn-sm" onclick="editService(${service.id})">编辑</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteService(${service.id})">删除</button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+            
+            document.getElementById('serviceCount').textContent = services.length;
+        }
+        
+        // 编辑服务
+        function editService(id) {
+            const service = services.find(s => s.id === id);
+            if (!service) return;
+            
+            document.getElementById('serviceModalTitle').textContent = '编辑服务';
+            document.getElementById('serviceId').value = service.id;
+            document.getElementById('serviceName').value = service.name;
+            document.getElementById('serviceDescription').value = service.description;
+            document.getElementById('serviceIcon').value = service.icon;
+            document.getElementById('serviceStatus').value = service.status;
+            
+            openModal('serviceModal');
+        }
+        
+        // 删除服务
+        function deleteService(id) {
+            if (confirm('确定要删除这个服务吗？')) {
+                services = services.filter(s => s.id !== id);
+                updateServiceTable();
+                alert('服务删除成功！');
+            }
+        }
+        
+        // 保存服务
+        document.getElementById('serviceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('serviceId').value) || Date.now();
+            const service = {
+                id: id,
+                name: document.getElementById('serviceName').value,
+                description: document.getElementById('serviceDescription').value,
+                icon: document.getElementById('serviceIcon').value,
+                status: document.getElementById('serviceStatus').value
+            };
+            
+            const existingIndex = services.findIndex(s => s.id === id);
+            if (existingIndex >= 0) {
+                services[existingIndex] = service;
+            } else {
+                services.push(service);
+            }
+            
+            updateServiceTable();
+            closeModal('serviceModal');
+            alert('服务保存成功！');
+        });
+        
+        // 更新内容表格
+        function updateContentTable() {
+            const table = document.getElementById('contentTable');
+            table.innerHTML = '';
+            
+            contents.forEach(content => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>C${String(content.id).padStart(3, '0')}</td>
+                    <td>${content.title}</td>
+                    <td>${content.type}</td>
+                    <td>${content.date}</td>
+                    <td><span style="color: ${content.status === '发布' ? 'var(--success)' : 'var(--accent)'};">${content.status}</span></td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn btn-primary btn-sm" onclick="editContent(${content.id})">编辑</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteContent(${content.id})">删除</button>
+                        </div>
+                    </td>
+                `;
+                table.appendChild(row);
+            });
+            
+            document.getElementById('newsCount').textContent = contents.length;
+        }
+        
+        // 编辑内容
+        function editContent(id) {
+            const content = contents.find(c => c.id === id);
+            if (!content) return;
+            
+            document.getElementById('contentModalTitle').textContent = '编辑内容';
+            document.getElementById('contentId').value = content.id;
+            document.getElementById('contentTitle').value = content.title;
+            document.getElementById('contentType').value = content.type;
+            document.getElementById('contentDate').value = content.date;
+            document.getElementById('contentBody').value = content.body;
+            document.getElementById('contentStatus').value = content.status;
+            
+            openModal('contentModal');
+        }
+        
+        // 删除内容
+        function deleteContent(id) {
+            if (confirm('确定要删除这个内容吗？')) {
+                contents = contents.filter(c => c.id !== id);
+                updateContentTable();
+                alert('内容删除成功！');
+            }
+        }
+        
+        // 保存内容
+        document.getElementById('contentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('contentId').value) || Date.now();
+            const content = {
+                id: id,
+                title: document.getElementById('contentTitle').value,
+                type: document.getElementById('contentType').value,
+                date: document.getElementById('contentDate').value,
+                body: document.getElementById('contentBody').value,
+                status: document.getElementById('contentStatus').value
+            };
+            
+            const existingIndex = contents.findIndex(c => c.id === id);
+            if (existingIndex >= 0) {
+                contents[existingIndex] = content;
+            } else {
+                contents.push(content);
+            }
+            
+            updateContentTable();
+            closeModal('contentModal');
+            alert('内容保存成功！');
+        });
+        
+        // 更新仪表板统计
+        function updateDashboardStats() {
+            // 模拟访问量增长
+            const visitorCount = Math.floor(Math.random() * 1000) + 1000;
+            document.getElementById('visitorCount').textContent = visitorCount.toLocaleString();
+        }
+        
+        // 保存系统设置
+        function saveSettings() {
+            const settings = {
+                siteName: document.getElementById('siteName').value,
+                siteUrl: document.getElementById('siteUrl').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                contactPhone: document.getElementById('contactPhone').value,
+                siteDescription: document.getElementById('siteDescription').value
+            };
+            
+            localStorage.setItem('siteSettings', JSON.stringify(settings));
+            alert('系统设置已保存！');
+        }
+        
+        // 重置系统设置
+        function resetSettings() {
+            if (confirm('确定要重置系统设置吗？')) {
+                const defaultSettings = {
+                    siteName: '景辰云贸',
+                    siteUrl: 'https://charlesyun.github.io/cross-border-ecommerce/',
+                    contactEmail: 'contact@jingchenyunmao.com',
+                    contactPhone: '+86 400-123-4567',
+                    siteDescription: '景辰云贸专注于水杯类产品的跨境电商，8年行业经验，帮助500+企业成功进入全球市场'
+                };
+                
+                document.getElementById('siteName').value = defaultSettings.siteName;
+                document.getElementById('siteUrl').value = defaultSettings.siteUrl;
+                document.getElementById('contactEmail').value = defaultSettings.contactEmail;
+                document.getElementById('contactPhone').value = defaultSettings.contactPhone;
+                document.getElementById('siteDescription').value = defaultSettings.siteDescription;
+                
+                alert('系统设置已重置为默认值！');
+            }
+        }
+        
+        // 加载保存的设置
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('siteSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                document.getElementById('siteName').value = settings.siteName;
+                document.getElementById('siteUrl').value = settings.siteUrl;
+                document.getElementById('contactEmail').value = settings.contactEmail;
+                document.getElementById('contactPhone').value = settings.contactPhone;
+                document.getElementById('siteDescription').value = settings.siteDescription;
+            }
+        }
+        
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initData();
+            loadSettings();
+            
+            // 设置当前日期为内容默认日期
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('contentDate').value = today;
+            
+            // 模拟数据更新
+            setInterval(updateDashboardStats, 30000); // 每30秒更新一次统计
+        });
+        
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+S 保存
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                const activeSection = document.querySelector('.content-section.active');
+                if (activeSection.id === 'settings') {
+                    saveSettings();
+                }
+            }
+            
+            // Esc 关闭模态框
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+    </script>
+    <!-- 安全数据管理器 -->
+    <script src="secure-data-manager.js"></script>
+</body>
+</html>

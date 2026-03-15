@@ -8,8 +8,8 @@ export default defineConfig({
         port: 3000,
         open: true,
     },
-    // GitHub Pages部署配置
-    base: "/cross-border-ecommerce/",
+    // 开发环境使用 /，生产环境使用 /cross-border-ecommerce/
+    base: process.env.NODE_ENV === "production" ? "/cross-border-ecommerce/" : "/",
     build: {
         outDir: "dist",
         sourcemap: false,

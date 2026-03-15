@@ -31,6 +31,7 @@ function ErrorBoundary() {
 
 function App() {
     // 使用createBrowserRouter并设置future flags来消除警告
+    // 设置 basename 以支持 GitHub Pages 部署
     const router = createBrowserRouter(
         [
             {
@@ -49,6 +50,7 @@ function App() {
             },
         ],
         {
+            basename: import.meta.env.BASE_URL,
             future: {
                 v7_relativeSplatPath: true,
                 v7_fetcherPersist: true,

@@ -1,11 +1,25 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    port: 3000,
-    open: true
-  }
-})
+    plugins: [react()],
+    server: {
+        port: 3000,
+        open: true,
+    },
+    // GitHub Pages部署配置
+    base: "/cross-border-ecommerce/",
+    build: {
+        outDir: "dist",
+        sourcemap: false,
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ["react", "react-dom", "react-router-dom"],
+                    ui: ["lucide-react"],
+                },
+            },
+        },
+    },
+});

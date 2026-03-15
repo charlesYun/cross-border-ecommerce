@@ -35,13 +35,26 @@ const AboutPage = () => {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
-        <div className="container-custom py-20">
-          <h1 className="heading-1 mb-6">关于我们</h1>
-          <p className="text-xl max-w-3xl">
-            景辰云贸是一家专注于水杯类产品的跨境电商公司，致力于将中国优质水杯产品销往全球市场，
-            为海外客户提供高品质、环保、创意的水杯解决方案。
-          </p>
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-secondary-800 text-white">
+        {/* 背景装饰 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-900/90 via-primary-800/80 to-secondary-800/90" />
+        <div className="absolute top-0 left-0 w-64 h-64 bg-primary-500/20 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary-500/20 rounded-full translate-x-1/3 translate-y-1/3 blur-3xl" />
+        
+        <div className="container-custom relative z-10 py-24">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
+              <span className="w-2 h-2 bg-gradient-to-r from-primary-300 to-secondary-300 rounded-full mr-2 animate-pulse-custom"></span>
+              <span className="text-sm font-medium">ABOUT US</span>
+            </div>
+            <h1 className="heading-1 mb-6 bg-gradient-to-r from-white via-primary-100 to-white bg-clip-text text-transparent">
+              关于我们
+            </h1>
+            <p className="text-xl max-w-3xl text-gray-200 leading-relaxed">
+              景辰云贸是一家专注于水杯类产品的跨境电商公司，致力于将中国优质水杯产品销往全球市场，
+              为海外客户提供高品质、环保、创意的水杯解决方案。
+            </p>
+          </div>
         </div>
       </section>
 

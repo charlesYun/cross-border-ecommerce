@@ -14,31 +14,12 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
-      <link rel="modulepreload" crossorigin href="/cross-border-ecommerce/assets/vendor-DdHwEkaP-P3LqGlwm.js">
-      <link rel="modulepreload" crossorigin href="/cross-border-ecommerce/assets/ui-GzgyTyAu-DZp_LrLA.js">
-      <script type="module" crossorigin src="/cross-border-ecommerce/assets/index-D86iZFba.js"></script>
+      <script type="module" crossorigin src="/cross-border-ecommerce/assets/index-oeYOhr8q.js"></script>
+      <link rel="modulepreload" crossorigin href="/cross-border-ecommerce/assets/vendor-DdHwEkaP.js">
+      <link rel="modulepreload" crossorigin href="/cross-border-ecommerce/assets/ui-GzgyTyAu.js">
       <link rel="stylesheet" crossorigin href="/cross-border-ecommerce/assets/index-hhNGShdR.css">
     </head>
     <body>
-        <!-- GitHub Pages SPA 路由处理脚本 -->
-        <script>
-            // 处理从 404.html 重定向过来的请求
-            (function () {
-                var redirect = sessionStorage.redirect;
-                delete sessionStorage.redirect;
-                if (redirect && redirect !== location.href) {
-                    history.replaceState(null, null, redirect);
-                } else {
-                    // 处理 URL 中的 ?/ 格式的路径
-                    var search = location.search;
-                    if (search && search.startsWith("?/")) {
-                        var path = search.slice(2).split("&")[0];
-                        var newUrl = location.pathname + (path ? path : "") + (location.hash || "");
-                        history.replaceState(null, null, newUrl);
-                    }
-                }
-            })();
-        </script>
         <div id="root"></div>
     </body>
 </html>

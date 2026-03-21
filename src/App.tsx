@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Layout from "./layouts/Layout";
 import HomePage from "./pages/HomePage";
@@ -35,9 +35,8 @@ function ErrorBoundary() {
 }
 
 function App() {
-    // 使用createBrowserRouter并设置future flags来消除警告
-    // 设置 basename 以支持 GitHub Pages 部署
-    const router = createBrowserRouter(
+    // GitHub Pages 不处理 SPA 的 history 路由，改用 hash 路由更稳定。
+    const router = createHashRouter(
         [
             {
                 path: "/",
@@ -52,7 +51,6 @@ function App() {
             },
         ],
         {
-            basename: import.meta.env.BASE_URL,
             future: {
                 v7_relativeSplatPath: true,
                 v7_fetcherPersist: true,

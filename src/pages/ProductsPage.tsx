@@ -1,192 +1,180 @@
-import { useState } from 'react'
-import { Filter, Search, Star, Droplets, Thermometer, Coffee, Battery } from 'lucide-react'
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { ArrowRight, Battery, Coffee, Droplets, ShieldCheck, Thermometer } from "lucide-react";
 
 const ProductsPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState('all')
-  const [searchQuery, setSearchQuery] = useState('')
+    const { i18n } = useTranslation();
+    const isZh = i18n.language.startsWith("zh");
 
-  const categories = [
-    { id: 'all', name: '全部水杯', icon: <Droplets className="h-5 w-5" /> },
-    { id: 'insulated', name: '保温杯', icon: <Thermometer className="h-5 w-5" /> },
-    { id: 'glass', name: '玻璃杯', icon: <Droplets className="h-5 w-5" /> },
-    { id: 'travel', name: '随行杯', icon: <Coffee className="h-5 w-5" /> },
-    { id: 'smart', name: '智能水杯', icon: <Battery className="h-5 w-5" /> },
-    { id: 'sports', name: '运动水杯', icon: <Droplets className="h-5 w-5" /> }
-  ]
+    const categories = [
+        {
+            icon: <Thermometer className="h-6 w-6" />,
+            title: isZh ? "保温杯系列" : "Insulated Series",
+            description: isZh
+                ? "面向礼赠、商超和品牌联名场景的经典保温杯方案。"
+                : "Classic insulated bottles for gifting, retail, and branded collaborations.",
+            highlights: isZh
+                ? ["双层真空结构", "支持 LOGO 定制", "礼盒包装可选"]
+                : ["Double-wall vacuum", "Custom logo support", "Optional gift packaging"],
+            color: "from-slate-500 to-gray-700",
+        },
+        {
+            icon: <Droplets className="h-6 w-6" />,
+            title: isZh ? "玻璃杯系列" : "Glass Series",
+            description: isZh
+                ? "适合精品零售和高颜值生活方式渠道的玻璃杯产品线。"
+                : "Glass tumblers designed for boutique retail and lifestyle channels.",
+            highlights: isZh
+                ? ["高硼硅玻璃", "环保轻便", "多种杯套配件"]
+                : ["Borosilicate glass", "Lightweight and eco-friendly", "Multiple accessory options"],
+            color: "from-blue-400 to-cyan-500",
+        },
+        {
+            icon: <Battery className="h-6 w-6" />,
+            title: isZh ? "智能水杯系列" : "Smart Series",
+            description: isZh
+                ? "适合新消费和科技礼品市场的智能化水杯产品。"
+                : "Smart drinkware for tech gifting and modern consumer brands.",
+            highlights: isZh
+                ? ["温显与提醒", "支持电子模块", "适配 OEM 开发"]
+                : ["Temperature display", "Smart reminder modules", "OEM-ready development"],
+            color: "from-violet-500 to-fuchsia-500",
+        },
+        {
+            icon: <Coffee className="h-6 w-6" />,
+            title: isZh ? "随行与运动系列" : "Travel & Sports Series",
+            description: isZh
+                ? "覆盖通勤、露营、健身等高频使用场景。"
+                : "Built for commuting, camping, fitness, and everyday active use.",
+            highlights: isZh
+                ? ["大容量设计", "便携防漏", "适合户外渠道"]
+                : ["Large-capacity options", "Portable and leak-proof", "Suitable for outdoor channels"],
+            color: "from-green-500 to-emerald-600",
+        },
+    ];
 
-  const products = [
-    {
-      id: 1,
-      name: '双层不锈钢保温杯',
-      category: 'insulated',
-      description: '24小时保温保冷，一键开盖，防漏设计',
-      price: 29.99,
-      rating: 4.8,
-      tags: ['保温', '不锈钢', '热销'],
-      imageColor: 'from-slate-400 to-gray-400'
-    },
-    {
-      id: 2,
-      name: '耐热玻璃随行杯',
-      category: 'glass',
-      description: '高硼硅玻璃，耐热防爆，便携设计',
-      price: 24.99,
-      rating: 4.9,
-      tags: ['玻璃', '环保', '便携'],
-      imageColor: 'from-blue-400 to-cyan-400'
-    },
-    {
-      id: 3,
-      name: '智能提醒水杯',
-      category: 'smart',
-      description: 'APP连接，饮水提醒，温度显示',
-      price: 49.99,
-      rating: 4.7,
-      tags: ['智能', 'APP', '提醒'],
-      imageColor: 'from-purple-400 to-pink-400'
-    },
-    {
-      id: 4,
-      name: '运动健身水杯',
-      category: 'sports',
-      description: '防漏吸管，单手开合，刻度显示',
-      price: 19.99,
-      rating: 4.6,
-      tags: ['运动', '大容量', '防漏'],
-      imageColor: 'from-green-400 to-emerald-400'
-    },
-    {
-      id: 5,
-      name: '陶瓷内胆保温杯',
-      category: 'insulated',
-      description: '陶瓷内胆，健康安全，长效保温',
-      price: 34.99,
-      rating: 4.8,
-      tags: ['陶瓷', '健康', '保温'],
-      imageColor: 'from-amber-400 to-orange-400'
-    },
-    {
-      id: 6,
-      name: '折叠便携水杯',
-      category: 'travel',
-      description: '硅胶材质，可折叠设计，超轻便携',
-      price: 14.99,
-      rating: 4.5,
-      tags: ['折叠', '便携', '旅行'],
-      imageColor: 'from-red-400 to-rose-400'
-    }
-  ]
+    const capabilities = isZh
+        ? [
+              "支持 OEM / ODM 定制开发",
+              "提供 FDA、LFGB、REACH 等合规支持",
+              "可同步规划包装、物流与仓储方案",
+              "适配礼赠、零售、电商和品牌合作渠道",
+          ]
+        : [
+              "OEM / ODM customization support",
+              "Compliance support for FDA, LFGB, REACH, and more",
+              "Packaging, logistics, and warehousing planning available",
+              "Suitable for gifting, retail, e-commerce, and branded campaigns",
+          ];
 
-  const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
-  })
-
-  return (
-    <div>
-      <section className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white">
-        <div className="container-custom py-20">
-          <h1 className="heading-1 mb-6">水杯产品展示</h1>
-          <p className="text-xl max-w-3xl">
-            精选中国优质水杯，涵盖保温杯、玻璃杯、智能水杯等多种品类
-          </p>
-        </div>
-      </section>
-
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="flex flex-col lg:flex-row gap-8">
-            <div className="lg:w-1/4">
-              <div className="sticky top-24">
-                <div className="mb-8">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="搜索水杯..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  </div>
+    return (
+        <div>
+            <section className="bg-gradient-to-r from-primary-700 to-accent-500 text-white">
+                <div className="container-custom py-20">
+                    <span className="tag mb-4 border-white/20 bg-white/10 text-white">PRODUCT OVERVIEW</span>
+                    <h1 className="heading-1 mb-6">{isZh ? "产品能力展示" : "Product Overview"}</h1>
+                    <p className="max-w-3xl text-xl text-primary-50">
+                        {isZh
+                            ? "这里不做复杂下单和筛选，而是聚焦展示我们在水杯产品上的品类能力、定制能力和交付经验。"
+                            : "Instead of a complex catalog flow, this page focuses on our drinkware categories, customization capabilities, and delivery strengths."}
+                    </p>
                 </div>
+            </section>
 
-                <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-                  <div className="flex items-center space-x-2 mb-4">
-                    <Filter className="h-5 w-5 text-gray-600" />
-                    <h3 className="text-lg font-semibold">水杯分类</h3>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    {categories.map((category) => (
-                      <button
-                        key={category.id}
-                        onClick={() => setSelectedCategory(category.id)}
-                        className={`w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center space-x-3 ${
-                          selectedCategory === category.id
-                            ? 'bg-blue-50 text-blue-600 font-medium'
-                            : 'text-gray-600 hover:bg-gray-50'
-                        }`}
-                      >
-                        <span className="text-blue-500">{category.icon}</span>
-                        <span>{category.name}</span>
-                      </button>
-                    ))}
-                  </div>
+            <section className="section-padding">
+                <div className="container-custom">
+                    <div className="mb-12 text-center">
+                        <h2 className="heading-2 mb-4 text-white">{isZh ? "核心产品方向" : "Core Product Directions"}</h2>
+                        <p className="mx-auto max-w-2xl text-white/60">
+                            {isZh
+                                ? "围绕不同渠道和用户场景，我们为客户提供稳定、可定制、适合全球销售的产品方案。"
+                                : "We build stable, customizable product lines around specific channels and user scenarios."}
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                        {categories.map((category) => (
+                            <div key={category.title} className="card p-8">
+                                <div className={`mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${category.color}`}>
+                                    {category.icon}
+                                </div>
+                                <h3 className="mb-4 text-2xl font-semibold text-white">{category.title}</h3>
+                                <p className="mb-6 text-white/60">{category.description}</p>
+                                <div className="space-y-3">
+                                    {category.highlights.map((item) => (
+                                        <div key={item} className="flex items-center gap-3 text-white/75">
+                                            <ShieldCheck className="h-5 w-5 flex-shrink-0 text-emerald-400" />
+                                            <span>{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-              </div>
-            </div>
+            </section>
 
-            <div className="lg:w-3/4">
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold">所有水杯产品</h2>
-                <p className="text-gray-600 mt-1">
-                  找到 {filteredProducts.length} 个产品
-                </p>
-              </div>
+            <section className="section-padding bg-white">
+                <div className="container-custom">
+                    <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                        <div>
+                            <h2 className="heading-2 mb-6 text-gray-900">{isZh ? "我们的交付能力" : "How We Deliver"}</h2>
+                            <p className="mb-8 text-gray-600">
+                                {isZh
+                                    ? "公司官网更重要的是让客户快速理解我们能做什么、适合什么合作方式，以及为什么值得进一步沟通。"
+                                    : "A company website should help visitors quickly understand what we can deliver, how we work, and why it is worth starting a conversation."}
+                            </p>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
-                  <div key={product.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
-                    <div className={`h-40 bg-gradient-to-br ${product.imageColor} relative`}>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="text-white text-center">
-                          <div className="text-3xl">🥤</div>
+                            <div className="grid gap-4">
+                                {capabilities.map((item) => (
+                                    <div key={item} className="rounded-2xl bg-gray-50 p-5 text-gray-700">
+                                        {item}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                      </div>
-                    </div>
-                    
-                    <div className="p-5">
-                      <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-gray-900">{product.name}</h3>
-                        <div className="flex items-center space-x-1">
-                          <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                          <span className="text-sm font-medium">{product.rating}</span>
+
+                        <div className="rounded-[2rem] bg-dark-950 p-8 text-white">
+                            <span className="tag mb-4">{isZh ? "FOR BRANDS" : "FOR BRANDS"}</span>
+                            <h3 className="mb-4 text-2xl font-semibold">
+                                {isZh ? "如果你已经有目标市场或渠道" : "If you already have a target market or channel"}
+                            </h3>
+                            <p className="mb-6 text-white/60">
+                                {isZh
+                                    ? "我们可以直接从产品方向、认证要求、包装表达和履约方案四个维度给出建议。"
+                                    : "We can advise directly on product direction, compliance, packaging, and fulfillment."}
+                            </p>
+                            <div className="flex flex-col gap-3 sm:flex-row">
+                                <Link to="/contact?subject=service" className="btn-accent">
+                                    {isZh ? "联系咨询" : "Contact Us"}
+                                </Link>
+                                <Link to="/services" className="btn-secondary justify-center">
+                                    {isZh ? "查看服务" : "View Services"}
+                                </Link>
+                            </div>
                         </div>
-                      </div>
-                      
-                      <p className="text-gray-600 text-sm mb-4">
-                        {product.description}
-                      </p>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="text-xl font-bold text-blue-600">${product.price}</div>
-                        <button className="px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-sm font-medium">
-                          查看详情
-                        </button>
-                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+                </div>
+            </section>
+
+            <section className="bg-primary-600 text-white">
+                <div className="container-custom py-16">
+                    <div className="text-center">
+                        <h2 className="heading-2 mb-4">{isZh ? "想进一步了解产品合作方式？" : "Want to discuss product cooperation?"}</h2>
+                        <p className="mx-auto mb-8 max-w-2xl text-primary-100">
+                            {isZh
+                                ? "我们可以根据你的品牌定位、市场方向和预算，给出更合适的产品建议。"
+                                : "We can recommend the right product direction based on your brand, market, and budget."}
+                        </p>
+                        <Link to="/contact?subject=service" className="btn-primary bg-white text-primary-600 hover:bg-gray-100">
+                            {isZh ? "立即沟通" : "Start a Conversation"}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </div>
+                </div>
+            </section>
         </div>
-      </section>
-    </div>
-  )
-}
+    );
+};
 
-export default ProductsPage
+export default ProductsPage;

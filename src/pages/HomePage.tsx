@@ -1,64 +1,56 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Globe, Shield, Truck, CheckCircle, Sparkles, Star, Zap } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { ArrowRight, CheckCircle, Globe, Sparkles, Zap } from "lucide-react";
 
 const HomePage = () => {
-    const services = [
+    const { i18n } = useTranslation();
+    const isZh = i18n.language.startsWith("zh");
+
+    const overviewCards = [
         {
-            icon: <Globe className="h-6 w-6" />,
-            title: "水杯全球分销",
-            description: "将中国优质水杯销往欧美、日韩、东南亚等全球主要市场",
-            color: "from-blue-500 to-cyan-500",
+            title: isZh ? "业务范围" : "Business Scope",
+            text: isZh
+                ? "覆盖饮具杯壶、厨房用品、家居收纳、清洁用品等多类日用品。"
+                : "Covering drinkware, kitchenware, home organization, cleaning products, and other everyday categories.",
         },
         {
-            icon: <Shield className="h-6 w-6" />,
-            title: "水杯质量认证",
-            description: "FDA、LFGB、BPA-Free等国际水杯安全认证服务",
-            color: "from-emerald-500 to-teal-500",
+            title: isZh ? "服务内容" : "Service Coverage",
+            text: isZh
+                ? "提供选品建议、供应链协同、合规支持与跨境交付配套。"
+                : "Supporting sourcing, supplier coordination, compliance preparation, and cross-border delivery.",
         },
         {
-            icon: <Truck className="h-6 w-6" />,
-            title: "专业水杯物流",
-            description: "针对水杯产品的特殊包装和全球物流解决方案",
-            color: "from-violet-500 to-purple-500",
+            title: isZh ? "合作重点" : "Working Priorities",
+            text: isZh
+                ? "强调稳定交付、清晰沟通和长期配合，适合品牌与渠道持续合作。"
+                : "Built around reliable delivery, clear communication, and long-term collaboration for brands and channels.",
         },
     ];
 
     const stats = [
-        { value: "500+", label: "合作品牌" },
-        { value: "50+", label: "覆盖国家" },
-        { value: "1000万+", label: "累计销售" },
-        { value: "98%", label: "客户满意度" },
+        { value: "500+", label: isZh ? "合作品牌" : "Partner Brands" },
+        { value: "50+", label: isZh ? "覆盖国家" : "Countries" },
+        { value: "1000万+", label: isZh ? "累计出货" : "Units Delivered" },
+        { value: "98%", label: isZh ? "客户满意度" : "Satisfaction" },
     ];
 
-    const features = [
-        "8年水杯跨境电商经验",
-        "累计销售1000万+只水杯",
-        "覆盖全球50+国家和地区",
-        "200+水杯供应商合作",
-        "FDA、LFGB等国际认证",
-        "7x24小时专业客服",
-    ];
-
-    const cases = [
-        {
-            client: "不锈钢保温杯品牌",
-            result: "美国市场月销10万只",
-            industry: "保温杯",
-            color: "from-orange-500 to-amber-500",
-        },
-        {
-            client: "玻璃随行杯品牌",
-            result: "欧洲市场占有率15%",
-            industry: "玻璃杯",
-            color: "from-cyan-500 to-blue-500",
-        },
-        {
-            client: "智能提醒水杯",
-            result: "日本销售增长200%",
-            industry: "智能水杯",
-            color: "from-pink-500 to-rose-500",
-        },
-    ];
+    const features = isZh
+        ? [
+              "8年日用品跨境经验",
+              "覆盖厨房、家居、清洁等多类产品",
+              "覆盖全球50+国家和地区",
+              "200+供应链伙伴协同",
+              "熟悉多类产品国际认证",
+              "7x24小时专业客服",
+          ]
+        : [
+              "8 years of daily goods export experience",
+              "Coverage across kitchen, home, and cleaning categories",
+              "Coverage across 50+ countries",
+              "200+ supply-chain partners",
+              "Hands-on with global compliance requirements",
+              "24/7 professional support",
+          ];
 
     return (
         <div className="relative">
@@ -76,32 +68,33 @@ const HomePage = () => {
                             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
                                 <span className="w-2 h-2 bg-gradient-to-r from-primary-400 to-accent-400 rounded-full mr-3 animate-pulse" />
                                 <span className="text-sm text-white/70">
-                                    水杯跨境电商解决方案专家
+                                    {isZh ? "日用品跨境电商与贸易服务伙伴" : "Cross-border daily goods growth partner"}
                                 </span>
                             </div>
 
                             <h1 className="heading-1">
-                                <span className="text-gradient">中国优质水杯</span>
+                                <span className="text-gradient">{isZh ? "中国优质日用品" : "Quality Chinese Daily Goods"}</span>
                                 <br />
-                                <span className="text-white">全球健康饮水</span>
+                                <span className="text-white">{isZh ? "连接全球市场" : "Connected to Global Markets"}</span>
                             </h1>
 
                             <p className="text-lg text-white/60 max-w-xl leading-relaxed">
-                                专注于水杯类产品的跨境电商，将中国制造的健康水杯带给世界消费者。
-                                覆盖选品、合规、仓储、物流、品牌营销的一站式跨境出海方案。
+                                {isZh
+                                    ? "景辰云贸围绕水杯、厨房用品、家居收纳、清洁用品等多类日用品，提供从选品、合规、供应链到跨境履约的整合支持，帮助中国制造更稳地进入海外市场。"
+                                    : "Jingchen supports drinkware, kitchenware, home organization, cleaning products, and other daily goods categories with integrated sourcing, compliance, supply chain, and fulfillment support."}
                             </p>
 
                             <div className="flex flex-wrap gap-4">
-                                <Link to="/products" className="btn-accent">
-                                    查看水杯产品
+                                <Link to="/services" className="btn-accent">
+                                    {isZh ? "查看服务能力" : "View Services"}
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </Link>
                                 <Link to="/about" className="btn-secondary">
-                                    了解我们
+                                    {isZh ? "了解我们" : "About Us"}
                                 </Link>
                             </div>
 
-                            <div className="grid grid-cols-4 gap-6 pt-8 border-t border-white/10">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-white/10">
                                 {stats.map((stat, index) => (
                                     <div key={index} className="text-center">
                                         <div className="text-2xl lg:text-3xl font-bold text-gradient-accent">
@@ -124,35 +117,43 @@ const HomePage = () => {
                                         </div>
                                         <div>
                                             <div className="text-sm text-white/50">
-                                                CORE SERVICES
+                                                COMPANY OVERVIEW
                                             </div>
-                                            <div className="font-semibold text-white">核心服务</div>
+                                            <div className="font-semibold text-white">{isZh ? "公司概览" : "Company Overview"}</div>
                                         </div>
                                     </div>
-                                    <span className="tag tag-primary">水杯垂直领域</span>
+                                    <span className="tag tag-primary">{isZh ? "综合日用品" : "Daily Goods Partner"}</span>
+                                </div>
+
+                                <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                                    <div className="text-sm uppercase tracking-[0.2em] text-white/40">
+                                        {isZh ? "公司定位" : "Positioning"}
+                                    </div>
+                                    <p className="mt-3 text-sm leading-7 text-white/70">
+                                        {isZh
+                                            ? "景辰云贸专注多类日用品的跨境贸易与市场协同，服务对象覆盖海外品牌、渠道客户与长期采购合作方。"
+                                            : "Jingchen focuses on cross-border trade and market coordination for daily goods, serving overseas brands, retail channels, and long-term sourcing partners."}
+                                    </p>
                                 </div>
 
                                 <div className="space-y-4">
-                                    {services.map((service, index) => (
+                                    {overviewCards.map((item, index) => (
                                         <div
                                             key={index}
-                                            className="group p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/10 transition-all cursor-pointer"
+                                            className="p-4 rounded-xl bg-white/5 border border-white/5"
                                         >
                                             <div className="flex items-start space-x-4">
-                                                <div
-                                                    className={`w-10 h-10 rounded-lg bg-gradient-to-br ${service.color} flex items-center justify-center flex-shrink-0`}
-                                                >
-                                                    {service.icon}
+                                                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center flex-shrink-0">
+                                                    <CheckCircle className="h-5 w-5 text-white" />
                                                 </div>
                                                 <div className="flex-1">
                                                     <div className="font-medium text-white mb-1">
-                                                        {service.title}
+                                                        {item.title}
                                                     </div>
                                                     <div className="text-sm text-white/50">
-                                                        {service.description}
+                                                        {item.text}
                                                     </div>
                                                 </div>
-                                                <ArrowRight className="h-4 w-4 text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all" />
                                             </div>
                                         </div>
                                     ))}
@@ -160,7 +161,9 @@ const HomePage = () => {
 
                                 <div className="pt-4 border-t border-white/10 text-center">
                                     <span className="text-sm text-white/40">
-                                        为中国水杯品牌打造可持续的全球增长曲线
+                                        {isZh
+                                            ? "帮助中国优质日用品以更稳健的方式进入全球市场"
+                                            : "Helping Chinese daily goods enter global markets with a more reliable approach"}
                                     </span>
                                 </div>
                             </div>
@@ -180,7 +183,7 @@ const HomePage = () => {
                         <div className="space-y-8">
                             <div>
                                 <span className="tag tag-accent mb-4">WHY CHOOSE US</span>
-                                <h2 className="heading-2 text-white mt-4">为什么选择我们？</h2>
+                                <h2 className="heading-2 text-white mt-4">{isZh ? "为什么选择我们？" : "Why Choose Us?"}</h2>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
@@ -196,7 +199,7 @@ const HomePage = () => {
                             </div>
 
                             <Link to="/about" className="btn-primary inline-flex">
-                                了解更多
+                                {isZh ? "了解更多" : "Learn More"}
                                 <ArrowRight className="ml-2 h-4 w-4" />
                             </Link>
                         </div>
@@ -209,54 +212,15 @@ const HomePage = () => {
                                     </div>
                                     <div>
                                         <div className="text-2xl font-bold text-white">
-                                            全球业务网络
+                                            {isZh ? "全球业务网络" : "Global Business Network"}
                                         </div>
-                                        <div className="text-white/50 mt-2">覆盖50+国家和地区</div>
+                                        <div className="text-white/50 mt-2">
+                                            {isZh ? "覆盖50+国家和地区" : "Serving 50+ countries and regions"}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <section className="relative section-padding">
-                <div className="container-custom">
-                    <div className="text-center mb-16">
-                        <span className="tag tag-primary mb-4">SUCCESS STORIES</span>
-                        <h2 className="heading-2 text-white mt-4">成功案例</h2>
-                        <p className="text-white/50 mt-4 max-w-2xl mx-auto">
-                            看看我们如何帮助客户实现业务增长和全球化拓展
-                        </p>
-                    </div>
-
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {cases.map((item, index) => (
-                            <div key={index} className="card card-hover p-6 space-y-4">
-                                <div
-                                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center`}
-                                >
-                                    <Star className="h-6 w-6 text-white" />
-                                </div>
-                                <div>
-                                    <div className="text-white font-semibold text-lg">
-                                        {item.client}
-                                    </div>
-                                    <div className="text-white/40 text-sm">{item.industry}</div>
-                                </div>
-                                <div className="text-white/70">{item.result}</div>
-                                <div className="flex items-center text-primary-400 text-sm font-medium">
-                                    <span>查看详情</span>
-                                    <ArrowRight className="ml-1 h-4 w-4" />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="text-center mt-12">
-                        <Link to="/cases" className="btn-secondary">
-                            查看所有案例
-                        </Link>
                     </div>
                 </div>
             </section>
@@ -270,16 +234,20 @@ const HomePage = () => {
                         <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center">
                             <Zap className="h-8 w-8 text-white" />
                         </div>
-                        <h2 className="heading-2 text-white mb-4">准备好拓展全球市场了吗？</h2>
+                        <h2 className="heading-2 text-white mb-4">
+                            {isZh ? "准备好拓展全球市场了吗？" : "Ready to Expand Globally?"}
+                        </h2>
                         <p className="text-white/60 mb-8 max-w-2xl mx-auto">
-                            我们的专业团队将为您提供个性化的跨境电商解决方案，助您轻松进入国际市场
+                            {isZh
+                                ? "我们的专业团队将为您提供个性化的跨境电商解决方案，助您轻松进入国际市场"
+                                : "Our team provides tailored cross-border e-commerce solutions to help you enter international markets with confidence."}
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link to="/contact" className="btn-accent">
-                                立即咨询
+                                {isZh ? "立即咨询" : "Contact Now"}
                             </Link>
                             <Link to="/services" className="btn-secondary">
-                                查看服务方案
+                                {isZh ? "查看服务方案" : "View Services"}
                             </Link>
                         </div>
                     </div>

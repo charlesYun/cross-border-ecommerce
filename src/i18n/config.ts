@@ -9,10 +9,7 @@ const resources = {
             nav: {
                 home: "首页",
                 about: "关于我们",
-                products: "产品展示",
                 services: "服务方案",
-                cases: "客户案例",
-                news: "新闻动态",
                 contact: "联系我们",
             },
 
@@ -22,7 +19,6 @@ const resources = {
                 subtitle: "专业的跨境电商解决方案，助力企业轻松拓展全球业务",
                 cta: "立即咨询",
                 viewProducts: "查看产品",
-                viewCases: "查看案例",
                 whyChooseUs: "为什么选择我们？",
                 features: [
                     "10+年跨境电商行业经验",
@@ -56,10 +52,7 @@ const resources = {
             nav: {
                 home: "Home",
                 about: "About",
-                products: "Products",
                 services: "Services",
-                cases: "Cases",
-                news: "News",
                 contact: "Contact",
             },
 
@@ -70,7 +63,6 @@ const resources = {
                     "Professional cross-border e-commerce solutions to help businesses easily expand globally",
                 cta: "Contact Now",
                 viewProducts: "View Products",
-                viewCases: "View Cases",
                 whyChooseUs: "Why Choose Us?",
                 features: [
                     "10+ years of cross-border e-commerce experience",

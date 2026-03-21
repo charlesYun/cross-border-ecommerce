@@ -1,26 +1,21 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Mail, Phone, MapPin, ArrowUpRight, Sparkles } from "lucide-react";
 
 const Footer = () => {
+    const { i18n } = useTranslation();
+    const isZh = i18n.language.startsWith("zh");
     const currentYear = new Date().getFullYear();
 
     const quickLinks = [
-        { name: "关于我们", path: "/about" },
-        { name: "产品展示", path: "/products" },
-        { name: "服务方案", path: "/services" },
-        { name: "客户案例", path: "/cases" },
-        { name: "新闻动态", path: "/news" },
-        { name: "联系我们", path: "/contact" },
+        { name: isZh ? "关于我们" : "About", path: "/about" },
+        { name: isZh ? "服务方案" : "Services", path: "/services" },
+        { name: isZh ? "联系我们" : "Contact", path: "/contact" },
     ];
 
-    const services = [
-        "水杯全球分销",
-        "质量认证服务",
-        "跨境物流方案",
-        "品牌营销推广",
-        "市场数据分析",
-        "客户服务支持",
-    ];
+    const businessScope = isZh
+        ? ["饮具杯壶", "厨房用品", "家居收纳", "清洁用品"]
+        : ["Drinkware", "Kitchenware", "Home Organization", "Cleaning Products"];
 
     return (
         <footer className="relative bg-dark-950 border-t border-white/5">
@@ -37,32 +32,25 @@ const Footer = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-lg font-bold text-white">景辰云贸</span>
+                                    <span className="text-lg font-bold text-white">
+                                        {isZh ? "景辰云贸" : "Jingchen Global"}
+                                    </span>
                                     <span className="text-xs text-white/50 tracking-wider">
                                         JINGCHEN
                                     </span>
                                 </div>
                             </Link>
                             <p className="text-white/50 text-sm leading-relaxed mb-6">
-                                专注于水杯类产品的跨境电商公司，致力于将中国优质水杯产品销往全球市场。
+                                {isZh
+                                    ? "景辰云贸是一家面向全球市场的跨境贸易与电商服务公司，业务覆盖水杯、厨房用品、家居收纳、清洁用品等多类日用品，帮助中国制造以更稳定、更清晰的方式进入海外市场。"
+                                    : "Jingchen is a cross-border trade and e-commerce company serving global markets across drinkware, kitchenware, home organization, cleaning products, and other daily goods categories."}
                             </p>
-                            <div className="flex items-center space-x-3">
-                                {["微信", "抖音", "微博", "小红书"].map((social) => (
-                                    <a
-                                        key={social}
-                                        href="#"
-                                        className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-all"
-                                    >
-                                        <span className="text-xs font-medium">
-                                            {social.charAt(0)}
-                                        </span>
-                                    </a>
-                                ))}
-                            </div>
                         </div>
 
                         <div>
-                            <h3 className="text-white font-semibold mb-6">快速链接</h3>
+                            <h3 className="text-white font-semibold mb-6">
+                                {isZh ? "快速链接" : "Quick Links"}
+                            </h3>
                             <ul className="space-y-3">
                                 {quickLinks.map((link) => (
                                     <li key={link.path}>
@@ -79,26 +67,34 @@ const Footer = () => {
                         </div>
 
                         <div>
-                            <h3 className="text-white font-semibold mb-6">服务项目</h3>
+                            <h3 className="text-white font-semibold mb-6">
+                                {isZh ? "业务范围" : "Business Scope"}
+                            </h3>
                             <ul className="space-y-3">
-                                {services.map((service) => (
-                                    <li key={service}>
-                                        <span className="text-white/50 text-sm">{service}</span>
+                                {businessScope.map((item) => (
+                                    <li key={item}>
+                                        <span className="text-white/50 text-sm">{item}</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
 
                         <div>
-                            <h3 className="text-white font-semibold mb-6">联系我们</h3>
+                            <h3 className="text-white font-semibold mb-6">
+                                {isZh ? "联系我们" : "Contact"}
+                            </h3>
                             <ul className="space-y-4">
                                 <li className="flex items-start space-x-3">
                                     <div className="w-8 h-8 rounded-lg bg-primary-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                                         <MapPin className="h-4 w-4 text-primary-400" />
                                     </div>
                                     <div>
-                                        <p className="text-white/70 text-sm">上海市浦东新区</p>
-                                        <p className="text-white/50 text-sm">张江高科技园区</p>
+                                        <p className="text-white/70 text-sm">
+                                            {isZh ? "上海市浦东新区" : "Pudong, Shanghai"}
+                                        </p>
+                                        <p className="text-white/50 text-sm">
+                                            {isZh ? "张江高科技园区" : "Zhangjiang Hi-Tech Park"}
+                                        </p>
                                     </div>
                                 </li>
                                 <li className="flex items-center space-x-3">
@@ -112,7 +108,7 @@ const Footer = () => {
                                         <Mail className="h-4 w-4 text-primary-400" />
                                     </div>
                                     <span className="text-white/70 text-sm">
-                                        contact@jingchen.com
+                                        contact@jingchenyunmao.com
                                     </span>
                                 </li>
                             </ul>
@@ -123,20 +119,21 @@ const Footer = () => {
                 <div className="border-t border-white/5 py-6">
                     <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                         <p className="text-white/40 text-sm">
-                            © {currentYear} 景辰云贸 JingChen. 保留所有权利。
+                            © {currentYear} {isZh ? "景辰云贸" : "Jingchen Global"}.{" "}
+                            {isZh ? "保留所有权利。" : "All rights reserved."}
                         </p>
                         <div className="flex items-center space-x-6">
                             <a
-                                href="#"
+                                href="mailto:contact@jingchenyunmao.com?subject=%E9%9A%90%E7%A7%81%E5%92%A8%E8%AF%A2"
                                 className="text-white/40 hover:text-white/70 text-sm transition-colors"
                             >
-                                隐私政策
+                                {isZh ? "隐私政策" : "Privacy"}
                             </a>
                             <a
-                                href="#"
+                                href="mailto:contact@jingchenyunmao.com?subject=%E6%9C%8D%E5%8A%A1%E6%9D%A1%E6%AC%BE%E5%92%A8%E8%AF%A2"
                                 className="text-white/40 hover:text-white/70 text-sm transition-colors"
                             >
-                                服务条款
+                                {isZh ? "服务条款" : "Terms"}
                             </a>
                         </div>
                     </div>

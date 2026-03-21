@@ -1,25 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Building, Globe, TrendingUp, Users, Target, Award } from 'lucide-react'
 
 const CasesPage = () => {
+  const { i18n } = useTranslation()
+  const isZh = i18n.language.startsWith('zh')
+  const location = useLocation()
   const [selectedIndustry, setSelectedIndustry] = useState('all')
   const [selectedRegion, setSelectedRegion] = useState('all')
 
   const industries = [
-    { id: 'all', name: '全部品类' },
-    { id: 'insulated', name: '保温杯' },
-    { id: 'glass', name: '玻璃杯' },
-    { id: 'smart', name: '智能水杯' },
-    { id: 'travel', name: '随行杯' },
-    { id: 'sports', name: '运动水杯' }
+    { id: 'all', name: isZh ? '全部品类' : 'All Categories' },
+    { id: 'insulated', name: isZh ? '保温杯' : 'Insulated Bottles' },
+    { id: 'glass', name: isZh ? '玻璃杯' : 'Glassware' },
+    { id: 'smart', name: isZh ? '智能水杯' : 'Smart Cups' },
+    { id: 'travel', name: isZh ? '随行杯' : 'Travel Cups' },
+    { id: 'sports', name: isZh ? '运动水杯' : 'Sports Bottles' }
   ]
 
   const regions = [
-    { id: 'all', name: '全部地区' },
-    { id: 'europe', name: '欧洲市场' },
-    { id: 'america', name: '美洲市场' },
-    { id: 'asia', name: '亚洲市场' },
-    { id: 'middleeast', name: '中东市场' }
+    { id: 'all', name: isZh ? '全部地区' : 'All Regions' },
+    { id: 'europe', name: isZh ? '欧洲市场' : 'Europe' },
+    { id: 'america', name: isZh ? '美洲市场' : 'Americas' },
+    { id: 'asia', name: isZh ? '亚洲市场' : 'Asia' },
+    { id: 'middleeast', name: isZh ? '中东市场' : 'Middle East' }
   ]
 
   const caseStudies = [
@@ -115,27 +120,46 @@ const CasesPage = () => {
     }
   ]
 
-  const filteredCases = caseStudies.filter(caseStudy => {
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const requestedIndustry = params.get('industry')
+    const matchedIndustry = industries.find((industry) => industry.name === requestedIndustry || industry.id === requestedIndustry)
+
+    if (matchedIndustry) {
+      setSelectedIndustry(matchedIndustry.id)
+    }
+  }, [location.search])
+
+  const filteredCases = useMemo(() => caseStudies.filter(caseStudy => {
     const matchesIndustry = selectedIndustry === 'all' || caseStudy.industry === selectedIndustry
     const matchesRegion = selectedRegion === 'all' || caseStudy.region === selectedRegion
     return matchesIndustry && matchesRegion
-  })
+  }), [caseStudies, selectedIndustry, selectedRegion])
 
-  const stats = [
-    { label: '成功案例', value: '50+', desc: '覆盖多个行业和市场' },
-    { label: '合作客户', value: '500+', desc: '包括知名品牌和初创企业' },
-    { label: '覆盖国家', value: '50+', desc: '全球主要电商市场' },
-    { label: '客户满意度', value: '98%', desc: '基于客户反馈调查' }
-  ]
+  const stats = isZh
+    ? [
+        { label: '成功案例', value: '50+', desc: '覆盖多个行业和市场' },
+        { label: '合作客户', value: '500+', desc: '包括知名品牌和初创企业' },
+        { label: '覆盖国家', value: '50+', desc: '全球主要电商市场' },
+        { label: '客户满意度', value: '98%', desc: '基于客户反馈调查' }
+      ]
+    : [
+        { label: 'Success Cases', value: '50+', desc: 'Across multiple industries and markets' },
+        { label: 'Clients', value: '500+', desc: 'From established brands to startups' },
+        { label: 'Countries', value: '50+', desc: 'Major global e-commerce markets' },
+        { label: 'Satisfaction', value: '98%', desc: 'Based on client feedback' }
+      ]
 
   return (
     <div>
       {/* Hero */}
       <section className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
         <div className="container-custom py-20">
-          <h1 className="heading-1 mb-6">水杯客户案例</h1>
+          <h1 className="heading-1 mb-6">{isZh ? '水杯客户案例' : 'Customer Success Cases'}</h1>
           <p className="text-xl max-w-3xl">
-            看看我们如何帮助水杯品牌成功进入全球市场，实现销售增长和品牌建设
+            {isZh
+              ? '看看我们如何帮助水杯品牌成功进入全球市场，实现销售增长和品牌建设'
+              : 'See how we help drinkware brands enter global markets, grow sales, and build stronger brands.'}
           </p>
         </div>
       </section>
@@ -160,13 +184,13 @@ const CasesPage = () => {
         <div className="container-custom">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
-              <h2 className="heading-2">成功案例展示</h2>
-              <p className="text-gray-600 mt-2">按行业和地区筛选查看</p>
+              <h2 className="heading-2">{isZh ? '成功案例展示' : 'Case Gallery'}</h2>
+              <p className="text-gray-600 mt-2">{isZh ? '按行业和地区筛选查看' : 'Filter by category and region'}</p>
             </div>
             
             <div className="flex flex-wrap gap-4">
               <div>
-                <div className="text-sm font-medium text-gray-700 mb-2">按行业筛选</div>
+                <div className="text-sm font-medium text-gray-700 mb-2">{isZh ? '按行业筛选' : 'Filter by category'}</div>
                 <div className="flex flex-wrap gap-2">
                   {industries.map((industry) => (
                     <button
@@ -185,7 +209,7 @@ const CasesPage = () => {
               </div>
               
               <div>
-                <div className="text-sm font-medium text-gray-700 mb-2">按地区筛选</div>
+                <div className="text-sm font-medium text-gray-700 mb-2">{isZh ? '按地区筛选' : 'Filter by region'}</div>
                 <div className="flex flex-wrap gap-2">
                   {regions.map((region) => (
                     <button
@@ -209,8 +233,8 @@ const CasesPage = () => {
           {filteredCases.length === 0 ? (
             <div className="text-center py-12">
               <Building className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-600 mb-2">暂无相关案例</h3>
-              <p className="text-gray-500">尝试调整筛选条件</p>
+              <h3 className="text-xl font-semibold text-gray-600 mb-2">{isZh ? '暂无相关案例' : 'No matching cases yet'}</h3>
+              <p className="text-gray-500">{isZh ? '尝试调整筛选条件' : 'Try changing the filters'}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -231,7 +255,7 @@ const CasesPage = () => {
                               <span>•</span>
                               <span>{regions.find(r => r.id === caseStudy.region)?.name}</span>
                               <span>•</span>
-                              <span>合作时长：{caseStudy.duration}</span>
+                              <span>{isZh ? `合作时长：${caseStudy.duration}` : `Duration: ${caseStudy.duration}`}</span>
                             </div>
                           </div>
                         </div>
@@ -241,19 +265,19 @@ const CasesPage = () => {
                     {/* Challenge & Solution */}
                     <div className="space-y-6">
                       <div>
-                        <div className="text-sm font-medium text-gray-500 mb-2">挑战</div>
+                        <div className="text-sm font-medium text-gray-500 mb-2">{isZh ? '挑战' : 'Challenge'}</div>
                         <p className="text-gray-700">{caseStudy.challenge}</p>
                       </div>
                       
                       <div>
-                        <div className="text-sm font-medium text-gray-500 mb-2">解决方案</div>
+                        <div className="text-sm font-medium text-gray-500 mb-2">{isZh ? '解决方案' : 'Solution'}</div>
                         <p className="text-gray-700">{caseStudy.solution}</p>
                       </div>
                     </div>
 
                     {/* Results */}
                     <div className="mt-8 pt-8 border-t">
-                      <div className="text-sm font-medium text-gray-500 mb-4">成果展示</div>
+                      <div className="text-sm font-medium text-gray-500 mb-4">{isZh ? '成果展示' : 'Results'}</div>
                       <div className="grid grid-cols-3 gap-4">
                         {caseStudy.results.map((result, index) => (
                           <div key={index} className="text-center">
@@ -287,9 +311,9 @@ const CasesPage = () => {
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="heading-2 mb-4">客户评价</h2>
+            <h2 className="heading-2 mb-4">{isZh ? '客户评价' : 'Client Testimonials'}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              听听我们的客户怎么说
+              {isZh ? '听听我们的客户怎么说' : 'What our clients say about working with us'}
             </p>
           </div>
 
@@ -335,9 +359,9 @@ const CasesPage = () => {
       <section className="section-padding">
         <div className="container-custom">
           <div className="text-center mb-12">
-            <h2 className="heading-2 mb-4">合作流程</h2>
+            <h2 className="heading-2 mb-4">{isZh ? '合作流程' : 'How We Work'}</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              清晰透明的合作流程，确保项目顺利推进
+              {isZh ? '清晰透明的合作流程，确保项目顺利推进' : 'A clear and transparent process that keeps every project moving smoothly'}
             </p>
           </div>
 
@@ -380,17 +404,19 @@ const CasesPage = () => {
       <section className="bg-primary-600 text-white">
         <div className="container-custom py-16">
           <div className="text-center">
-            <h2 className="heading-2 mb-4">开始您的成功故事</h2>
+            <h2 className="heading-2 mb-4">{isZh ? '开始您的成功故事' : 'Start Your Success Story'}</h2>
             <p className="text-primary-100 mb-8 max-w-2xl mx-auto">
-              无论您面临什么挑战，景辰云贸都能为您提供专业的跨境电商解决方案
+              {isZh
+                ? '无论您面临什么挑战，景辰云贸都能为您提供专业的跨境电商解决方案'
+                : 'Whatever challenge you face, Jingchen can provide a practical cross-border solution.'}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-primary bg-white text-primary-600 hover:bg-gray-100">
-                免费咨询
-              </button>
-              <button className="btn-secondary border-white text-white hover:bg-white/10">
-                查看更多案例
-              </button>
+              <Link to="/contact?subject=service" className="btn-primary bg-white text-primary-600 hover:bg-gray-100">
+                {isZh ? '免费咨询' : 'Free Consultation'}
+              </Link>
+              <Link to="/services" className="btn-secondary border-white text-white hover:bg-white/10">
+                {isZh ? '查看服务能力' : 'View Services'}
+              </Link>
             </div>
           </div>
         </div>

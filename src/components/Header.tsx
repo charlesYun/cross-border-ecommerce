@@ -20,10 +20,7 @@ const Header = () => {
     const navItems = [
         { name: t("nav.home"), path: "/" },
         { name: t("nav.about"), path: "/about" },
-        { name: t("nav.products"), path: "/products" },
         { name: t("nav.services"), path: "/services" },
-        { name: t("nav.cases"), path: "/cases" },
-        { name: t("nav.news"), path: "/news" },
         { name: t("nav.contact"), path: "/contact" },
     ];
 

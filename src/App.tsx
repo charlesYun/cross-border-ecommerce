@@ -1,15 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import Layout from "./layouts/Layout";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
-import ProductsPage from "./pages/ProductsPage";
 import ServicesPage from "./pages/ServicesPage";
-import CasesPage from "./pages/CasesPage";
 import ContactPage from "./pages/ContactPage";
-import NewsPage from "./pages/NewsPage";
 
 // 错误边界组件
 function ErrorBoundary() {
+    const { i18n } = useTranslation();
+    const isZh = i18n.language.startsWith("zh");
+
     const navigateHome = () => {
         // 根据环境动态获取base路径
         const base = import.meta.env.BASE_URL || "/";
@@ -19,10 +20,14 @@ function ErrorBoundary() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-950">
             <div className="text-center">
-                <h1 className="text-4xl font-bold text-white mb-4">404 - 页面未找到</h1>
-                <p className="text-gray-400 mb-8">抱歉，您访问的页面不存在。</p>
+                <h1 className="text-4xl font-bold text-white mb-4">
+                    {isZh ? "404 - 页面未找到" : "404 - Page Not Found"}
+                </h1>
+                <p className="text-gray-400 mb-8">
+                    {isZh ? "抱歉，您访问的页面不存在。" : "Sorry, the page you visited does not exist."}
+                </p>
                 <button onClick={navigateHome} className="btn-primary">
-                    返回首页
+                    {isZh ? "返回首页" : "Back Home"}
                 </button>
             </div>
         </div>
@@ -41,11 +46,8 @@ function App() {
                 children: [
                     { index: true, element: <HomePage /> },
                     { path: "about", element: <AboutPage /> },
-                    { path: "products", element: <ProductsPage /> },
                     { path: "services", element: <ServicesPage /> },
-                    { path: "cases", element: <CasesPage /> },
                     { path: "contact", element: <ContactPage /> },
-                    { path: "news", element: <NewsPage /> },
                 ],
             },
         ],
